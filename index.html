@@ -3,254 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiệm Nhà Sóc Xoài - Menu Tổng Hợp Siêu Cấp</title>
+    <title>Tiệm Nhà Sóc Xoài - Menu Đầy Đủ 100%</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Quicksand', sans-serif; background-color: #fdfcfb; scroll-behavior: smooth; }
+        body { font-family: 'Quicksand', sans-serif; background-color: #FFF9F0; color: #4A2C2A; scroll-behavior: smooth; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .category-pill.active { background: #0084ff; color: white; border-color: #0084ff; transform: scale(1.05); }
-        .product-card { transition: all 0.3s ease; border: 1px solid #f3f4f6; background: white; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 132, 255, 0.1); border-color: #0084ff; }
-        .sticky-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
-        .messenger-btn { background: linear-gradient(135deg, #0695FF, #A334FA, #FF6968); }
+        
+        /* Màu sắc rực rỡ cho từng thành phần */
+        .card-banhmi { border-left: 10px solid #FF922B; background: #FFF4E6; }
+        .card-anvat { border-left: 10px solid #FF6B6B; background: #FFF5F5; }
+        .card-trasua { border-left: 10px solid #845EF7; background: #F8F0FC; }
+        .card-soda { border-left: 10px solid #22B8CF; background: #E3FAFC; }
+        .card-suachua { border-left: 10px solid #51CF66; background: #EBFBEE; }
+
+        .product-card {
+            border-radius: 24px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .category-pill {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 800;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-add {
+            background: #4A2C2A;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
-<body class="text-gray-800 pb-20">
+<body class="pb-10">
 
-    <nav class="fixed top-0 w-full z-50 sticky-nav shadow-sm px-4 py-3 flex justify-between items-center border-b border-gray-100">
+    <header class="fixed top-0 w-full z-50 bg-orange-500 text-white p-4 flex justify-between items-center shadow-md">
         <div class="flex items-center gap-2">
             <span class="text-3xl">🐿️</span>
-            <div>
-                <h1 class="text-xl font-black text-orange-600 leading-none">SÓC XOÀI</h1>
-                <p class="text-[10px] font-bold text-gray-400 mt-1 uppercase">Ăn là ghiền - Uống là mê</p>
-            </div>
+            <h1 class="font-black text-xl tracking-tight">TIỆM NHÀ SÓC XOÀI</h1>
         </div>
-        <button onclick="toggleCart()" class="relative p-2.5 bg-blue-50 rounded-2xl text-blue-600 transition hover:bg-blue-100">
-            <i class="fas fa-shopping-cart text-xl"></i>
-            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">0</span>
+        <button onclick="toggleCart()" class="relative p-2 bg-orange-600 rounded-full">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-orange-600 text-[10px] font-black px-1.5 rounded-full">0</span>
         </button>
-    </nav>
+    </header>
 
-    <div class="mt-20 sticky top-[68px] z-40 bg-white/80 py-3 px-4 flex gap-2 overflow-x-auto no-scrollbar border-b border-gray-100">
-        <button onclick="scrollToGroup('all')" class="category-pill active border border-gray-200 px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition">✨ Tất cả</button>
-        <button onclick="scrollToGroup('banhmi')" class="category-pill border border-gray-200 px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition">🥖 Bánh Mì & Mỳ</button>
-        <button onclick="scrollToGroup('anvat')" class="category-pill border border-gray-200 px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition">🍡 Ăn Vặt</button>
-        <button onclick="scrollToGroup('trasua')" class="category-pill border border-gray-200 px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition">🧋 Trà Sữa</button>
-        <button onclick="scrollToGroup('nuoc')" class="category-pill border border-gray-200 px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition">🍹 Nước/Soda</button>
-        <button onclick="scrollToGroup('suachua')" class="category-pill border border-gray-200 px-5 py-2 rounded-full whitespace-nowrap text-sm font-bold transition">🍦 Sữa Chua</button>
+    <div class="mt-20 flex gap-3 overflow-x-auto p-4 no-scrollbar bg-white shadow-sm sticky top-[68px] z-40">
+        <button onclick="go('banhmi')" class="category-pill bg-orange-100 text-orange-700">🥖 Bánh Mì/Mỳ</button>
+        <button onclick="go('anvat')" class="category-pill bg-red-100 text-red-700">🍡 Ăn Vặt</button>
+        <button onclick="go('trasua')" class="category-pill bg-purple-100 text-purple-700">🧋 Trà Sữa</button>
+        <button onclick="go('soda')" class="category-pill bg-cyan-100 text-cyan-700">🍹 Soda/Nước</button>
+        <button onclick="go('suachua')" class="category-pill bg-green-100 text-green-700">🍦 Sữa Chua</button>
     </div>
 
-    <main class="px-4 py-8 max-w-6xl mx-auto space-y-12 min-h-screen">
+    <main class="p-4 space-y-10">
         
         <section id="banhmi">
-            <h3 class="text-xl font-black mb-6 flex items-center gap-3">🥖 Bánh Mì & Mỳ Cay <span class="flex-1 h-px bg-gray-200"></span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="list-banhmi"></div>
+            <h2 class="text-xl font-black text-orange-600 mb-4 border-b-4 border-orange-200 inline-block">🥖 BÁNH MÌ & MỲ CAY</h2>
+            <div id="box-banhmi"></div>
         </section>
 
         <section id="anvat">
-            <h3 class="text-xl font-black mb-6 flex items-center gap-3">🍡 Ăn Vặt & Bánh Tráng <span class="flex-1 h-px bg-gray-200"></span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="list-anvat"></div>
+            <h2 class="text-xl font-black text-red-600 mb-4 border-b-4 border-red-200 inline-block">🍡 ĂN VẶT & VIÊN CHIÊN</h2>
+            <div id="box-anvat"></div>
         </section>
 
         <section id="trasua">
-            <h3 class="text-xl font-black mb-6 flex items-center gap-3">🧋 Trà Sữa & Cacao Matcha <span class="flex-1 h-px bg-gray-200"></span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="list-trasua"></div>
+            <h2 class="text-xl font-black text-purple-600 mb-4 border-b-4 border-purple-200 inline-block">🧋 TRÀ SỮA & CACAO MATCHA</h2>
+            <div id="box-trasua"></div>
         </section>
 
-        <section id="nuoc">
-            <h3 class="text-xl font-black mb-6 flex items-center gap-3">🍹 Nước Ép & Soda <span class="flex-1 h-px bg-gray-200"></span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="list-nuoc"></div>
+        <section id="soda">
+            <h2 class="text-xl font-black text-cyan-600 mb-4 border-b-4 border-cyan-200 inline-block">🍹 SODA & GIẢI KHÁT</h2>
+            <div id="box-soda"></div>
         </section>
 
         <section id="suachua">
-            <h3 class="text-xl font-black mb-6 flex items-center gap-3">🍦 Sữa Chua Trái Cây <span class="flex-1 h-px bg-gray-200"></span></h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="list-suachua"></div>
+            <h2 class="text-xl font-black text-green-600 mb-4 border-b-4 border-green-200 inline-block">🍦 SỮA CHUA TRÁI CÂY</h2>
+            <div id="box-suachua"></div>
         </section>
 
     </main>
 
-    <section id="order-section" class="px-6 py-12 bg-gray-50 border-t">
-        <div class="max-w-xl mx-auto bg-white rounded-[2.5rem] p-8 shadow-xl border border-gray-100">
-            <h3 class="text-center font-black text-2xl mb-8">THÔNG TIN GIAO HÀNG 🛵</h3>
-            <div class="space-y-4">
-                <input type="text" id="cust-name" placeholder="Tên khách hàng..." class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-blue-400 transition">
-                <input type="tel" id="cust-phone" placeholder="Số điện thoại..." class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-blue-400 transition">
-                <textarea id="cust-addr" placeholder="Địa chỉ giao hàng chi tiết..." rows="3" class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-blue-400 transition"></textarea>
-                
-                <div class="bg-gray-900 text-white p-6 rounded-3xl flex justify-between items-center shadow-lg mt-6">
-                    <div>
-                        <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Tổng tiền đơn hàng</p>
-                        <span id="final-total" class="text-3xl font-black text-blue-400">0đ</span>
-                    </div>
-                    <i class="fas fa-receipt text-3xl opacity-20"></i>
-                </div>
-
-                <button onclick="handleMessengerOrder()" class="w-full messenger-btn text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-4 shadow-xl active:scale-95 transition-all mt-4">
-                    <i class="fab fa-facebook-messenger text-3xl"></i> GỬI QUA MESSENGER
-                </button>
-                <p class="text-[10px] text-gray-400 text-center font-medium italic mt-2 uppercase tracking-tighter">* Đơn hàng sẽ được tự động sao chép, bạn chỉ cần dán vào Messenger!</p>
+    <div class="m-4 p-6 bg-white rounded-[32px] shadow-2xl border-2 border-orange-100">
+        <h3 class="text-center font-black text-2xl text-gray-800 mb-6 uppercase">🚀 Gửi Đơn Hàng</h3>
+        <div class="space-y-4">
+            <input type="text" id="name" placeholder="Tên của bạn" class="w-full p-4 bg-orange-50 rounded-2xl outline-none">
+            <input type="tel" id="phone" placeholder="Số điện thoại" class="w-full p-4 bg-orange-50 rounded-2xl outline-none">
+            <textarea id="address" placeholder="Địa chỉ giao hàng" class="w-full p-4 bg-orange-50 rounded-2xl outline-none"></textarea>
+            
+            <div class="flex justify-between items-center bg-gray-900 text-white p-6 rounded-2xl shadow-lg">
+                <span class="font-bold opacity-70 italic">Tổng thanh toán:</span>
+                <span id="final-total" class="text-2xl font-black text-orange-400">0đ</span>
             </div>
+
+            <button onclick="send()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 shadow-lg">
+                <i class="fab fa-facebook-messenger text-2xl"></i> GỬI QUA MESSENGER
+            </button>
         </div>
-    </section>
+    </div>
 
-    <footer class="py-12 text-center bg-white border-t border-gray-50">
-        <div class="flex justify-center gap-8 mb-6">
-            <a href="https://www.facebook.com/luong.kute.568" target="_blank" class="text-blue-600 text-3xl transition hover:scale-110"><i class="fab fa-facebook"></i></a>
-            <a href="https://zalo.me/0985142598" target="_blank" class="text-blue-400 text-3xl transition hover:scale-110"><i class="fas fa-comment-dots"></i></a>
-            <a href="https://www.google.com/maps/place/B%C3%A1ng+Tr%C3%A1ng+Xo%C3%A0i+S%C3%B3c/@20.0962289,106.273497,18z/data=!4m6!3m5!1s0x313611002e13c06f:0x3398d382bbfdda07!8m2!3d20.0961835!4d106.2745724!16s%2Fg%2F11xyp5qt7f?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="text-red-500 text-3xl transition hover:scale-110"><i class="fas fa-map-marker-alt"></i></a>
-        </div>
-        <p class="text-[10px] font-black text-gray-300 uppercase tracking-[0.3em]">Tiệm Nhà Sóc Xoài - Hotline: 0985.142.598</p>
-    </footer>
-
-    <div id="cart-modal" class="fixed inset-0 bg-black/60 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="w-full max-w-md bg-white rounded-[2rem] overflow-hidden shadow-2xl flex flex-col max-h-[80vh]">
-            <div class="p-6 bg-blue-600 text-white flex justify-between items-center">
-                <h3 class="font-black text-xl">Đơn hàng của bạn 🛒</h3>
-                <button onclick="toggleCart()" class="text-3xl font-light hover:text-red-200 transition">&times;</button>
+    <div id="cart-modal" class="fixed inset-0 bg-black/70 z-[60] hidden flex items-end">
+        <div class="w-full bg-white rounded-t-[40px] p-6 max-h-[70vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-black text-xl">Món bạn đã chọn 🛒</h3>
+                <button onclick="toggleCart()" class="text-4xl">&times;</button>
             </div>
-            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/50"></div>
-            <div class="p-6 bg-white border-t">
-                <button onclick="toggleCart()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-blue-700 transition">Tiếp tục chọn món</button>
-            </div>
+            <div id="cart-content" class="space-y-4 pb-10"></div>
         </div>
     </div>
 
     <script>
         const products = [
-            // BÁNH MÌ & MỲ
-            { name: 'Bánh mì trứng', price: 15000, cat: 'banhmi', icon: '🍳' },
-            { name: 'Bánh mì xúc xích', price: 15000, cat: 'banhmi', icon: '🌭' },
-            { name: 'Bánh mì chả cá', price: 15000, cat: 'banhmi', icon: '🥖' },
-            { name: 'Bánh mì nướng muối ớt', price: 15000, cat: 'banhmi', icon: '🌶️' },
-            { name: 'Mỳ cay đặc biệt', price: 25000, cat: 'banhmi', icon: '🍜' },
-            // ĂN VẶT
-            { name: 'Bánh tráng trộn', price: 15000, cat: 'anvat', icon: '🌯' },
-            { name: 'Bánh tráng cuộn', price: 20000, cat: 'anvat', icon: '🌯' },
-            { name: 'Bò viên (Phần)', price: 20000, cat: 'anvat', icon: '🧆' },
-            { name: 'Tôm viên (Phần)', price: 20000, cat: 'anvat', icon: '🍢' },
-            { name: 'Cá viên (Phần)', price: 20000, cat: 'anvat', icon: '🍡' },
-            { name: 'Lạp xưởng nướng', price: 10000, cat: 'anvat', icon: '🌭' },
-            { name: 'Xúc xích Đức', price: 10000, cat: 'anvat', icon: '🌭' },
-            // TRÀ SỮA
-            { name: 'Trà sữa truyền thống full topping', price: 25000, cat: 'trasua', icon: '🧋' },
-            { name: 'Trà sữa gạo rang', price: 25000, cat: 'trasua', icon: '🌾' },
-            { name: 'Trà sữa hạt dẻ', price: 25000, cat: 'trasua', icon: '🌰' },
-            { name: 'Trà sữa phô mai', price: 25000, cat: 'trasua', icon: '🧀' },
-            { name: 'Matcha oreo', price: 25000, cat: 'trasua', icon: '🍵' },
-            { name: 'Matcha latte kem', price: 25000, cat: 'trasua', icon: '🍦' },
-            { name: 'Milo dầm cacao', price: 20000, cat: 'trasua', icon: '🍫' },
-            { name: 'Cacao bạc hà', price: 20000, cat: 'trasua', icon: '🌿' },
-            { name: 'Cacao oreo', price: 25000, cat: 'trasua', icon: '🍪' },
-            { name: 'Cacao latte', price: 20000, cat: 'trasua', icon: '🥛' },
-            // NƯỚC/SODA
-            { name: 'Trà tắc thanh mát', price: 10000, cat: 'nuoc', icon: '🍹' },
-            { name: 'Nước cam nguyên chất', price: 15000, cat: 'nuoc', icon: '🍊' },
-            { name: 'Soda việt quất', price: 15000, cat: 'nuoc', icon: '🫐' },
-            { name: 'Soda dâu', price: 15000, cat: 'nuoc', icon: '🍓' },
-            { name: 'Soda chanh dây', price: 15000, cat: 'nuoc', icon: '🍋' },
-            { name: 'Soda dưa lưới', price: 15000, cat: 'nuoc', icon: '🍈' },
-            // SỮA CHUA
-            { name: 'Sữa chua việt quất', price: 25000, cat: 'suachua', icon: '🫐' },
-            { name: 'Sữa chua dâu', price: 25000, cat: 'suachua', icon: '🍓' },
-            { name: 'Sữa chua chanh dây', price: 25000, cat: 'suachua', icon: '🍋' },
-            { name: 'Sữa chua dưa lưới', price: 25000, cat: 'suachua', icon: '🍈' },
-            { name: 'Sữa chua đào', price: 25000, cat: 'suachua', icon: '🍑' }
+            // BÁNH MÌ & MỲ (Theo yêu cầu)
+            { n: 'Bánh mì trứng', p: 15000, c: 'banhmi', i: '🍳', s: 'card-banhmi' },
+            { n: 'Bánh mì xúc xích', p: 15000, c: 'banhmi', i: '🌭', s: 'card-banhmi' },
+            { n: 'Bánh mì chả cá', p: 15000, c: 'banhmi', i: '🥖', s: 'card-banhmi' },
+            { n: 'Bánh mì nướng muối ớt', p: 15000, c: 'banhmi', i: '🌶️', s: 'card-banhmi' },
+            { n: 'Mỳ cay đặc biệt', p: 25000, c: 'banhmi', i: '🍜', s: 'card-banhmi' },
+            // ĂN VẶT & VIÊN CHIÊN (Theo yêu cầu)
+            { n: 'Bánh tráng trộn', p: 15000, c: 'anvat', i: '🌯', s: 'card-anvat' },
+            { n: 'Bánh tráng cuộn', p: 20000, c: 'anvat', i: '🌯', s: 'card-anvat' },
+            { n: 'Bò viên (Phần)', p: 20000, c: 'anvat', i: '🧆', s: 'card-anvat' },
+            { n: 'Tôm viên (Phần)', p: 20000, c: 'anvat', i: '🍢', s: 'card-anvat' },
+            { n: 'Cá viên (Phần)', p: 20000, c: 'anvat', i: '🍡', s: 'card-anvat' },
+            { n: 'Lạp xưởng nướng', p: 10000, c: 'anvat', i: '🌭', s: 'card-anvat' },
+            { n: 'Xúc xích Đức', p: 10000, c: 'anvat', i: '🌭', s: 'card-anvat' },
+            // TRÀ SỮA (Theo yêu cầu)
+            { n: 'Trà sữa gạo rang', p: 25000, c: 'trasua', i: '🌾', s: 'card-trasua' },
+            { n: 'Trà sữa truyền thống full topping', p: 25000, c: 'trasua', i: '🧋', s: 'card-trasua' },
+            { n: 'Trà sữa hạt dẻ', p: 25000, c: 'trasua', i: '🌰', s: 'card-trasua' },
+            { n: 'Trà sữa phô mai', p: 25000, c: 'trasua', i: '🧀', s: 'card-trasua' },
+            { n: 'Matcha oreo', p: 25000, c: 'trasua', i: '🍵', s: 'card-trasua' },
+            { n: 'Matcha latte kem', p: 25000, c: 'trasua', i: '🍦', s: 'card-trasua' },
+            { n: 'Milo dầm cacao', p: 20000, c: 'trasua', i: '🍫', s: 'card-trasua' },
+            { n: 'Cacao bạc hà', p: 20000, c: 'trasua', i: '🌿', s: 'card-trasua' },
+            { n: 'Cacao oreo', p: 25000, c: 'trasua', i: '🍪', s: 'card-trasua' },
+            { n: 'Cacao latte', p: 20000, c: 'trasua', i: '🥛', s: 'card-trasua' },
+            // SODA & GIẢI KHÁT (Theo yêu cầu)
+            { n: 'Trà tắc', p: 10000, c: 'soda', i: '🍹', s: 'card-soda' },
+            { n: 'Nước cam', p: 15000, c: 'soda', i: '🍊', s: 'card-soda' },
+            { n: 'Soda việt quất', p: 15000, c: 'soda', i: '🫐', s: 'card-soda' },
+            { n: 'Soda dâu', p: 15000, c: 'soda', i: '🍓', s: 'card-soda' },
+            { n: 'Soda chanh dây', p: 15000, c: 'soda', i: '🍋', s: 'card-soda' },
+            { n: 'Soda dưa lưới', p: 15000, c: 'soda', i: '🍈', s: 'card-soda' },
+            // SỮA CHUA (Theo yêu cầu)
+            { n: 'Sữa chua việt quất', p: 25000, c: 'suachua', i: '🫐', s: 'card-suachua' },
+            { n: 'Sữa chua dâu', p: 25000, c: 'suachua', i: '🍓', s: 'card-suachua' },
+            { n: 'Sữa chua chanh dây', p: 25000, c: 'suachua', i: '🍋', s: 'card-suachua' },
+            { n: 'Sữa chua dưa lưới', p: 25000, c: 'suachua', i: '🍈', s: 'card-suachua' },
+            { n: 'Sữa chua đào', p: 25000, c: 'suachua', i: '🍑', s: 'card-suachua' }
         ];
 
         let cart = [];
 
-        function renderAll() {
-            const groups = ['banhmi', 'anvat', 'trasua', 'nuoc', 'suachua'];
-            groups.forEach(group => {
-                const el = document.getElementById(`list-${group}`);
-                el.innerHTML = products.filter(p => p.cat === group).map(p => `
-                    <div class="product-card p-4 rounded-3xl flex items-center gap-4 relative">
-                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl shadow-inner">${p.icon}</div>
+        function render() {
+            ['banhmi', 'anvat', 'trasua', 'soda', 'suachua'].forEach(cat => {
+                document.getElementById('box-'+cat).innerHTML = products.filter(p => p.c === cat).map(p => `
+                    <div class="product-card ${p.s}">
+                        <div class="text-3xl">${p.i}</div>
                         <div class="flex-1">
-                            <h4 class="font-bold text-gray-800 text-sm leading-tight">${p.name}</h4>
-                            <p class="text-blue-600 font-black text-lg">${p.price.toLocaleString()}đ</p>
+                            <div class="font-bold text-sm">${p.n}</div>
+                            <div class="text-orange-600 font-black">${p.p.toLocaleString()}đ</div>
                         </div>
-                        <button onclick="addToCart('${p.name}')" class="w-10 h-10 bg-blue-500 text-white rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                        <button onclick="add('${p.n}')" class="btn-add"><i class="fas fa-plus"></i></button>
                     </div>
                 `).join('');
             });
         }
 
-        function scrollToGroup(id) {
-            if (id === 'all') window.scrollTo({ top: 0, behavior: 'smooth' });
-            else document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
-            document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        function add(n) {
+            const item = products.find(p => p.n === n);
+            const ex = cart.find(p => p.n === n);
+            if (ex) ex.q++; else cart.push({ ...item, q: 1 });
+            up();
         }
 
-        function addToCart(name) {
-            const p = products.find(i => i.name === name);
-            const exist = cart.find(i => i.name === name);
-            if (exist) exist.qty++; else cart.push({ ...p, qty: 1 });
-            updateCart();
-        }
-
-        function updateCart() {
-            const list = document.getElementById('cart-items');
-            const totalEl = document.getElementById('final-total');
-            let total = 0, count = 0;
-            
-            list.innerHTML = cart.length === 0 ? '<p class="text-center text-gray-400 py-10 italic">Giỏ hàng đang đợi món ngon... 🐿️</p>' :
-            cart.map((item, i) => {
-                total += item.price * item.qty; count += item.qty;
-                return `<div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-blue-50 shadow-sm">
-                    <div class="text-2xl">${item.icon}</div>
-                    <div class="flex-1 font-bold text-xs leading-tight">${item.name}</div>
-                    <div class="flex items-center gap-2 bg-blue-50 px-2 py-1 rounded-xl">
-                        <button onclick="changeQty(${i}, -1)" class="w-6 h-6 text-blue-600 font-bold">-</button>
-                        <span class="font-bold text-xs w-4 text-center">${item.qty}</span>
-                        <button onclick="changeQty(${i}, 1)" class="w-6 h-6 text-blue-600 font-bold">+</button>
+        function up() {
+            const content = document.getElementById('cart-content');
+            let t = 0, c = 0;
+            content.innerHTML = cart.map((it, idx) => {
+                t += it.p * it.q; c += it.q;
+                return `<div class="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border">
+                    <div class="text-2xl">${it.i}</div>
+                    <div class="flex-1 font-bold text-sm">${it.n}</div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="qty(${idx},-1)" class="w-8 h-8 bg-white border rounded-full font-bold">-</button>
+                        <span class="font-black">${it.q}</span>
+                        <button onclick="qty(${idx},1)" class="w-8 h-8 bg-white border rounded-full font-bold">+</button>
                     </div>
                 </div>`;
             }).join('');
-            
-            document.getElementById('cart-count').innerText = count;
-            totalEl.innerText = total.toLocaleString() + 'đ';
+            document.getElementById('cart-count').innerText = c;
+            document.getElementById('final-total').innerText = t.toLocaleString() + 'đ';
         }
 
-        function changeQty(i, d) {
-            cart[i].qty += d;
-            if (cart[i].qty <= 0) cart.splice(i, 1);
-            updateCart();
+        function qty(idx, d) {
+            cart[idx].q += d;
+            if (cart[idx].q <= 0) cart.splice(idx, 1);
+            up();
         }
 
         function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
+        function go(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 
-        function handleMessengerOrder() {
-            if (cart.length === 0) return alert('Bạn ơi, hãy chọn món vào giỏ hàng trước nhé!');
-            
-            const name = document.getElementById('cust-name').value || 'Khách hàng';
-            const phone = document.getElementById('cust-phone').value || 'N/A';
-            const addr = document.getElementById('cust-addr').value || 'N/A';
+        function send() {
+            if (cart.length === 0) return alert('Hãy chọn món vào giỏ nhé!');
+            const name = document.getElementById('name').value || 'Khách';
+            const phone = document.getElementById('phone').value || 'N/A';
+            const addr = document.getElementById('address').value || 'N/A';
             const total = document.getElementById('final-total').innerText;
 
-            let menuStr = "";
-            cart.forEach((item, i) => menuStr += `${i + 1}. ${item.icon} ${item.name} (x${item.qty})\n`);
+            let menu = "";
+            cart.forEach((it, i) => menu += `${i+1}. ${it.i} ${it.n} x${it.q}\n`);
 
-            const msg = `🐿️ ĐƠN HÀNG MỚI TỪ WEBSITE 🐿️\n\n🛍️ THỰC ĐƠN:\n${menuStr}--------------------------\n💰 TỔNG CỘNG: ${total}\n👤 KHÁCH: ${name}\n📞 SĐT: ${phone}\n📍 ĐỊA CHỈ: ${addr}\n\nShop làm món cho mình nhé! 🥰`;
+            const msg = `🐿️ ĐƠN HÀNG SÓC XOÀI 🐿️\n---\n🛍️ MÓN ĐẶT:\n${menu}---\n💰 TỔNG: ${total}\n👤 KHÁCH: ${name}\n📞 SĐT: ${phone}\n📍 ĐỊA CHỈ: ${addr}\n\nShop ơi làm món cho mình nhé! 🥰`;
 
-            // Auto copy to clipboard
-            const temp = document.createElement('textarea');
-            temp.value = msg;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
+            const el = document.createElement('textarea');
+            el.value = msg; document.body.appendChild(el); el.select();
+            document.execCommand('copy'); document.body.removeChild(el);
 
-            alert('Đã sao chép đơn hàng! Messenger sẽ mở ra, bạn chỉ cần DÁN vào ô chat và gửi cho Shop nhé! ❤️');
-            window.open(`https://m.me/luong.kute.568`, '_blank');
+            alert('Đã sao chép đơn! Hãy DÁN vào Messenger để gửi nhé ❤️');
+            window.open('https://m.me/luong.kute.568', '_blank');
         }
 
-        renderAll();
+        render();
     </script>
 </body>
 </html>
