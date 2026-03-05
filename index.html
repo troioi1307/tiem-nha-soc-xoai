@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiệm Nhà Sóc Xoài - Menu Đầy Đủ & Chuyên Nghiệp</title>
+    <title>Tiệm Nhà Sóc Xoài - Menu Chuyên Nghiệp</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
@@ -26,84 +26,72 @@
         </div>
         <button onclick="toggleCart()" class="relative p-2.5 bg-orange-100 rounded-2xl text-orange-600">
             <i class="fas fa-shopping-basket text-xl"></i>
-            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">0</span>
         </button>
     </nav>
 
-    <section class="mt-20 px-6 py-4 text-center">
-        <h2 class="text-2xl font-black text-gray-900 mb-2">Menu Đầy Đủ 📋</h2>
-        <div class="flex justify-center gap-4 text-xs font-bold">
-            <a href="https://zalo.me/0985142598" class="text-blue-600"><i class="fas fa-comment"></i> Zalo: 0985.142.598</a>
-            <a href="https://www.facebook.com/luong.kute.568" class="text-blue-800"><i class="fab fa-facebook"></i> Facebook</a>
-        </div>
-    </section>
-
-    <div class="sticky top-[64px] z-40 bg-white/80 backdrop-blur-sm py-3 px-4 flex gap-2 overflow-x-auto no-scrollbar border-b border-orange-50">
-        <button onclick="scrollToSection('all')" class="category-pill active border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">Tất cả</button>
+    <div class="mt-20 sticky top-[64px] z-40 bg-white/80 backdrop-blur-sm py-3 px-4 flex gap-2 overflow-x-auto no-scrollbar border-b border-orange-50">
+        <button onclick="scrollToSection('all')" class="category-pill active border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">✨ Tất cả</button>
         <button onclick="scrollToSection('Bánh Mì')" class="category-pill border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">🥖 Bánh Mì/Mỳ</button>
         <button onclick="scrollToSection('Ăn Vặt')" class="category-pill border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">🍡 Ăn Vặt</button>
         <button onclick="scrollToSection('Trà Sữa')" class="category-pill border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">🧋 Trà Sữa</button>
-        <button onclick="scrollToSection('Soda')" class="category-pill border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">🍹 Soda/Giải khát</button>
+        <button onclick="scrollToSection('Soda')" class="category-pill border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">🍹 Giải Khát</button>
         <button onclick="scrollToSection('Sữa Chua')" class="category-pill border border-orange-200 px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-bold">🍦 Sữa Chua</button>
     </div>
 
     <main class="px-4 py-6 max-w-6xl mx-auto space-y-12 min-h-screen">
-        
-        <section id="Bánh Mì" class="menu-group">
-            <h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🥖 Bánh Mì & Mỳ Cay</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-banhmi"></div>
-        </section>
-
-        <section id="Ăn Vặt" class="menu-group">
-            <h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🍡 Đồ Ăn Vặt & Bánh Tráng</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-anvat"></div>
-        </section>
-
-        <section id="Trà Sữa" class="menu-group">
-            <h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🧋 Trà Sữa & Cacao Matcha</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-trasua"></div>
-        </section>
-
-        <section id="Soda" class="menu-group">
-            <h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🍹 Soda & Giải Khát</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-soda"></div>
-        </section>
-
-        <section id="Sữa Chua" class="menu-group">
-            <h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🍦 Sữa Chua Trái Cây</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-suachua"></div>
-        </section>
-
+        <section id="Bánh Mì"><h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🥖 Bánh Mì & Mỳ Cay</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-banhmi"></div></section>
+        <section id="Ăn Vặt"><h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🍡 Ăn Vặt & Bánh Tráng</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-anvat"></div></section>
+        <section id="Trà Sữa"><h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🧋 Trà Sữa & Cacao Matcha</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-trasua"></div></section>
+        <section id="Soda"><h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🍹 Soda & Giải Khát</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-soda"></div></section>
+        <section id="Sữa Chua"><h3 class="section-title text-lg font-black mb-6 uppercase tracking-wider">🍦 Sữa Chua Trái Cây</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="container-suachua"></div></section>
     </main>
 
     <section id="order-section" class="px-6 py-12 bg-orange-100/50">
-        <div class="max-w-xl mx-auto bg-white rounded-[2.5rem] p-8 shadow-xl">
-            <h3 class="text-center font-black text-2xl mb-6">ĐẶT MÓN NGAY 🛵</h3>
+        <div class="max-w-xl mx-auto bg-white rounded-[2.5rem] p-8 shadow-xl border-t-8 border-orange-500">
+            <h3 class="text-center font-black text-2xl mb-6">ĐẶT MÓN QUA ZALO 🛵</h3>
             <div class="space-y-4">
-                <input type="text" id="name" placeholder="Tên của bạn" class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-orange-400">
+                <input type="text" id="name" placeholder="Tên khách hàng" class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-orange-400">
                 <input type="tel" id="phone" placeholder="Số điện thoại" class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-orange-400">
                 <textarea id="address" placeholder="Địa chỉ giao hàng" rows="3" class="w-full bg-gray-50 p-4 rounded-2xl outline-none border border-transparent focus:border-orange-400"></textarea>
                 <div class="bg-gray-900 text-white p-5 rounded-2xl flex justify-between items-center">
-                    <span class="font-bold">Tổng cộng:</span>
+                    <span class="font-bold">Tổng đơn hàng:</span>
                     <span id="final-total" class="text-2xl font-black text-orange-400">0đ</span>
                 </div>
                 <button onclick="sendZalo()" class="w-full bg-[#0068ff] text-white py-4 rounded-2xl font-black text-lg flex items-center justify-center gap-3 shadow-lg active:scale-95 transition">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" class="w-8 h-8 rounded-lg" alt="Zalo">
-                    GỬI ĐƠN QUA ZALO
+                    GỬI ĐƠN & TIN NHẮN
                 </button>
             </div>
         </div>
     </section>
 
+    <div id="cart-modal" class="fixed inset-0 bg-black/60 z-[60] hidden backdrop-blur-sm">
+        <div class="absolute right-0 top-0 w-full max-w-md bg-white h-full flex flex-col shadow-2xl">
+            <div class="p-6 bg-orange-500 text-white flex justify-between items-center">
+                <h3 class="font-black text-xl">Đơn hàng của bạn</h3>
+                <button onclick="toggleCart()" class="text-3xl">&times;</button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+            <div class="p-6 border-t bg-gray-50">
+                <a href="#order-section" onclick="toggleCart()" class="block w-full text-center bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg">Đến phần thanh toán</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         const products = [
+            { name: 'Bánh mì trứng', price: 15000, cat: 'Bánh Mì', icon: '🍳' },
+            { name: 'Bánh mì xúc xích', price: 15000, cat: 'Bánh Mì', icon: '🌭' },
+            { name: 'Bánh mì chả cá', price: 15000, cat: 'Bánh Mì', icon: '🥖' },
             { name: 'Bánh mì nướng muối ớt', price: 15000, cat: 'Bánh Mì', icon: '🌶️' },
+            { name: 'Mỳ cay đặc biệt', price: 25000, cat: 'Bánh Mì', icon: '🍜' },
             { name: 'Bánh tráng trộn', price: 15000, cat: 'Ăn Vặt', icon: '🌯' },
             { name: 'Bánh tráng cuộn', price: 20000, cat: 'Ăn Vặt', icon: '🌯' },
             { name: 'Bò viên (Phần)', price: 20000, cat: 'Ăn Vặt', icon: '🧆' },
             { name: 'Tôm viên (Phần)', price: 20000, cat: 'Ăn Vặt', icon: '🍢' },
             { name: 'Cá viên (Phần)', price: 20000, cat: 'Ăn Vặt', icon: '🍡' },
-            { name: 'Lạp xưởng', price: 15000, cat: 'Ăn Vặt', icon: '🌭' },
+            { name: 'Lạp xưởng', price: 10000, cat: 'Ăn Vặt', icon: '🌭' },
             { name: 'Xúc xích', price: 10000, cat: 'Ăn Vặt', icon: '🌭' },
             { name: 'Trà sữa truyền thống full topping', price: 25000, cat: 'Trà Sữa', icon: '🧋' },
             { name: 'Trà sữa gạo rang', price: 25000, cat: 'Trà Sữa', icon: '🌾' },
@@ -130,17 +118,13 @@
         let cart = [];
 
         function renderAll() {
-            const groups = {
-                'Bánh Mì': document.getElementById('container-banhmi'),
-                'Ăn Vặt': document.getElementById('container-anvat'),
-                'Trà Sữa': document.getElementById('container-trasua'),
-                'Soda': document.getElementById('container-soda'),
-                'Sữa Chua': document.getElementById('container-suachua')
+            const containers = {
+                'Bánh Mì': 'container-banhmi', 'Ăn Vặt': 'container-anvat',
+                'Trà Sữa': 'container-trasua', 'Soda': 'container-soda', 'Sữa Chua': 'container-suachua'
             };
-
-            Object.keys(groups).forEach(key => {
-                const filtered = products.filter(p => p.cat === key);
-                groups[key].innerHTML = filtered.map(p => `
+            Object.keys(containers).forEach(cat => {
+                const el = document.getElementById(containers[cat]);
+                el.innerHTML = products.filter(p => p.cat === cat).map(p => `
                     <div class="product-card bg-white p-4 rounded-3xl flex items-center gap-4">
                         <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-2xl shadow-inner">${p.icon}</div>
                         <div class="flex-1">
@@ -156,12 +140,8 @@
         }
 
         function scrollToSection(id) {
-            if (id === 'all') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            // Active hiệu ứng nút bấm
+            if (id === 'all') window.scrollTo({ top: 0, behavior: 'smooth' });
+            else document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
             document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
@@ -169,27 +149,67 @@
         function addToCart(name) {
             const product = products.find(p => p.name === name);
             const exist = cart.find(item => item.name === name);
-            if (exist) { exist.qty++; } else { cart.push({ ...product, qty: 1 }); }
+            if (exist) exist.qty++; else cart.push({ ...product, qty: 1 });
             updateCart();
         }
 
         function updateCart() {
+            const cartItems = document.getElementById('cart-items');
             const cartCount = document.getElementById('cart-count');
             const finalTotal = document.getElementById('final-total');
-            let total = 0; let count = 0;
-            cart.forEach(item => { total += item.price * item.qty; count += item.qty; });
+            let total = 0, count = 0;
+            
+            cartItems.innerHTML = cart.length === 0 ? '<p class="text-center text-gray-400 mt-20">Giỏ hàng trống 🐿️</p>' :
+            cart.map((item, i) => {
+                total += item.price * item.qty; count += item.qty;
+                return `<div class="flex items-center gap-4 bg-gray-50 p-3 rounded-2xl">
+                    <div class="text-xl">${item.icon}</div>
+                    <div class="flex-1 font-bold text-xs">${item.name}</div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeQty(${i}, -1)" class="w-6 h-6 bg-white border rounded shadow-sm">-</button>
+                        <span class="font-bold text-sm">${item.qty}</span>
+                        <button onclick="changeQty(${i}, 1)" class="w-6 h-6 bg-white border shadow-sm">+</button>
+                    </div>
+                </div>`;
+            }).join('');
+            
             cartCount.innerText = count;
             finalTotal.innerText = total.toLocaleString() + 'đ';
         }
 
+        function changeQty(i, delta) {
+            cart[i].qty += delta;
+            if (cart[i].qty <= 0) cart.splice(i, 1);
+            updateCart();
+        }
+
+        function toggleCart() { document.getElementById('cart-modal').classList.toggle('hidden'); }
+
         function sendZalo() {
-            if (cart.length === 0) return alert('Giỏ hàng trống bạn ơi!');
+            if (cart.length === 0) return alert('Bạn chưa chọn món nào!');
+            
             const name = document.getElementById('name').value || 'Khách hàng';
+            const phone = document.getElementById('phone').value || 'Không có';
+            const address = document.getElementById('address').value || 'Không có';
             const total = document.getElementById('final-total').innerText;
-            let msg = `🐿️ ĐƠN HÀNG SÓC XOÀI 🐿️\n`;
-            cart.forEach((item, i) => msg += `${i + 1}. ${item.name} x${item.qty}\n`);
-            msg += `--------------------------\n💰 TỔNG: ${total}\n👤 KHÁCH: ${name}\n📞 SĐT: ${document.getElementById('phone').value}\n📍 ĐỊA CHỈ: ${document.getElementById('address').value}`;
-            window.open(`https://zalo.me/0985142598?text=${encodeURIComponent(msg)}`, '_blank');
+
+            // XỬ LÝ CHUỖI TIN NHẮN THỰC ĐƠN
+            let menuList = "";
+            cart.forEach((item, index) => {
+                menuList += `${index + 1}. ${item.icon} ${item.name} x${item.qty} = ${(item.price * item.qty).toLocaleString()}đ\n`;
+            });
+
+            const message = `🐿️ ĐƠN HÀNG MỚI TỪ WEBSITE 🐿️\n\n` +
+                            `🛍️ THỰC ĐƠN ĐẶT:\n${menuList}\n` +
+                            `--------------------------\n` +
+                            `💰 TỔNG CỘNG: ${total}\n` +
+                            `👤 KHÁCH HÀNG: ${name}\n` +
+                            `📞 SĐT: ${phone}\n` +
+                            `📍 ĐỊA CHỈ: ${address}\n\n` +
+                            `Tiệm kiểm tra đơn và phản hồi sớm giúp mình nhé! 🥰`;
+
+            const zaloUrl = `https://zalo.me/0985142598?text=${encodeURIComponent(message)}`;
+            window.open(zaloUrl, '_blank');
         }
 
         renderAll();
