@@ -2,15 +2,14 @@
 <html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiệm Nhà Sóc Xoài 🐿️🥭 - Đặt Món Dễ Dàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tiệm Nhà Sóc Xoài 🐿️🥭 - PRO MAX App</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -18,31 +17,30 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#FFF3B0',
-                        secondary: '#FFB84C',
-                        accent: '#F16767',
-                        darkBg: '#2C221E',
-                        darkCard: '#3A2E28',
-                        darkText: '#FDE68A',
-                        zalo: '#0068FF'
+                        primary: '#FFF3B0', secondary: '#FFB84C', accent: '#F16767',
+                        darkBg: '#1A1614', darkCard: '#2C2420', darkText: '#FDE68A',
+                        success: '#22c55e', warning: '#eab308', error: '#ef4444'
                     },
-                    fontFamily: {
-                        'baloo': ['"Baloo 2"', 'cursive'],
-                        'nunito': ['Nunito', 'sans-serif'],
-                    },
+                    fontFamily: { baloo: ['"Baloo 2"', 'cursive'], nunito: ['Nunito', 'sans-serif'] },
                     animation: {
-                        'bounce-slow': 'bounce 3s infinite',
-                        'float': 'float 4s ease-in-out infinite',
-                        'slide-in-up': 'slideInUp 0.5s ease-out',
+                        'fly-item': 'flyItem 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards',
+                        'skeleton': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'flash-bg': 'flashBg 1s ease-out', // [NÂNG CẤP] Hiệu ứng flash
+                        'shake-lite': 'shakeLite 2s infinite ease-in-out' // [NÂNG CẤP] Rung nhẹ nút chốt đơn
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' },
+                        flyItem: {
+                            '0%': { transform: 'scale(1)', opacity: '1' },
+                            '100%': { transform: 'scale(0.1) translate(var(--tx), var(--ty))', opacity: '0.2' }
                         },
-                        slideInUp: {
-                            '0%': { transform: 'translateY(100%)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        flashBg: {
+                            '0%': { backgroundColor: 'rgba(241, 103, 103, 0.2)' },
+                            '100%': { backgroundColor: 'transparent' }
+                        },
+                        shakeLite: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(-2deg)' },
+                            '75%': { transform: 'rotate(2deg)' }
                         }
                     }
                 }
@@ -51,479 +49,799 @@
     </script>
 
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #FFF3B0; }
+        :root { --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom); }
+        * { -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #FFB84C; border-radius: 10px; }
-        .dark ::-webkit-scrollbar-track { background: #2C221E; }
-        .dark ::-webkit-scrollbar-thumb { background: #FFB84C; }
-
-        body { font-family: 'Nunito', sans-serif; }
+        body { font-family: 'Nunito', sans-serif; overscroll-behavior-y: none; }
         h1, h2, h3, h4, .font-cute { font-family: '"Baloo 2"', cursive; }
 
-        /* Card Hover Effect */
-        .menu-card {
-            transition: all 0.3s ease;
-        }
-        .menu-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(255, 184, 76, 0.3);
-        }
-        .dark .menu-card:hover {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-        }
+        /* [NÂNG CẤP] Mobile Tối ưu chạm */
+        button, input, select, .touch-target { min-height: 44px; }
+        
+        .menu-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .menu-card:active { transform: scale(0.97); }
+        
+        .glass-overlay { background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); transition: opacity 0.3s; opacity: 0; pointer-events: none; }
+        .glass-overlay.active { opacity: 1; pointer-events: auto; }
+        .bottom-sheet { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); max-height: 85vh; }
+        .bottom-sheet.active { transform: translateY(0); }
+        .modal-scale { transform: scale(0.9); opacity: 0; transition: all 0.3s ease; }
+        .modal-scale.active { transform: scale(1); opacity: 1; }
+        
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        #toast-container { position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; align-items: center; pointer-events: none; width: 90%; max-width: 400px; }
+        .toast-msg { animation: slideDown 0.3s ease-out forwards; width: 100%; justify-content: center; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        
+        .skeleton { background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        .dark .skeleton { background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%); }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* Quantity input styling */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
-
-        /* Toast Notification Styling */
-        #toast {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            text-align: center;
-            border-radius: 50px;
-            padding: 16px;
-            position: fixed;
-            z-index: 100;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-        #toast.show {
-            visibility: visible;
-            animation: slideInUp 0.5s, fadeOut 0.5s 2.5s;
-        }
-        @keyframes fadeOut {
-            from {bottom: 30px; opacity: 1;}
-            to {bottom: 0px; opacity: 0;}
-        }
+        #network-status { transition: top 0.3s ease; }
+        .offline-bar { top: 0 !important; }
     </style>
 </head>
-<body class="bg-primary text-gray-800 transition-colors duration-300 dark:bg-darkBg dark:text-darkText overflow-x-hidden relative pb-20 md:pb-0">
+<body class="bg-primary/30 text-gray-800 transition-colors duration-300 dark:bg-darkBg dark:text-gray-200 pb-32 pt-env">
 
-    <div id="toast" class="bg-accent text-white font-cute font-bold shadow-lg">
-        Đã copy đơn hàng! Đang mở Messenger... 🐿️
+    <audio id="sound-pop" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
+    <audio id="sound-success" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3" preload="auto"></audio>
+
+    <div id="network-status" class="fixed -top-12 left-0 w-full bg-red-500 text-white text-center py-2 text-sm font-bold z-[10000] shadow-md">
+        <i class="fas fa-wifi-slash"></i> Mất kết nối mạng! Đơn hàng sẽ được lưu tạm.
     </div>
 
-    <header class="fixed w-full top-0 z-50 bg-primary/90 dark:bg-darkBg/90 backdrop-blur-md shadow-sm transition-colors duration-300">
+    <div id="toast-container"></div>
+
+    <header class="fixed w-full top-0 z-40 bg-white/90 dark:bg-darkCard/90 backdrop-blur-lg shadow-sm transition-colors duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="text-2xl md:text-3xl font-cute font-bold text-secondary flex items-center gap-2 hover:scale-105 transition-transform">
-                <span>🐿️</span> Tiệm Nhà Sóc Xoài <span>🥭</span>
-            </a>
-
-            <nav class="hidden md:flex items-center gap-6 font-bold text-lg">
-                <a href="#home" class="hover:text-secondary transition-colors">Trang chủ</a>
-                <a href="#menu" class="hover:text-secondary transition-colors">Menu</a>
-                <a href="#about" class="hover:text-secondary transition-colors">Giới thiệu</a>
-                <a href="#contact" class="hover:text-secondary transition-colors">Liên hệ</a>
-                
-                <button id="theme-toggle" class="p-2 rounded-full bg-white dark:bg-darkCard shadow-md hover:scale-110 transition-transform text-secondary">
-                    <i id="theme-icon" class="fas fa-moon"></i>
+            <div id="logo-trigger" class="text-2xl md:text-3xl font-cute font-bold text-secondary flex items-center gap-2 cursor-pointer select-none shrink-0">
+                <span>🐿️</span> Sóc Xoài <span>🥭</span>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3 flex-1 justify-end">
+                <button onclick="UI.toggleHistoryModal()" class="flex items-center justify-center gap-2 bg-primary/20 dark:bg-gray-800 px-4 h-10 rounded-full text-sm font-bold text-accent border border-accent/20 hover:bg-accent hover:text-white transition-colors">
+                    <i class="fas fa-receipt"></i> <span class="hidden md:inline">Đơn của tôi</span>
                 </button>
-            </nav>
-
-            <div class="md:hidden flex items-center gap-4">
-                <button id="theme-toggle-mobile" class="p-2 rounded-full bg-white dark:bg-darkCard shadow-md text-secondary">
-                    <i id="theme-icon-mobile" class="fas fa-moon"></i>
-                </button>
-                <button id="mobile-menu-btn" class="text-2xl text-secondary">
-                    <i class="fas fa-bars"></i>
+                <button id="theme-toggle" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 shadow-inner flex items-center justify-center text-secondary transition-all active:scale-90 shrink-0">
+                    <i class="fas fa-moon"></i>
                 </button>
             </div>
         </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-darkCard shadow-lg absolute w-full left-0 top-full flex flex-col items-center py-4 gap-4 font-bold">
-            <a href="#home" class="mobile-link">Trang chủ</a>
-            <a href="#menu" class="mobile-link">Menu</a>
-            <a href="#about" class="mobile-link">Giới thiệu</a>
-            <a href="#contact" class="mobile-link">Liên hệ</a>
+        <div class="w-full bg-white dark:bg-darkCard border-t border-gray-100 dark:border-gray-800 p-2">
+            <div class="container mx-auto px-2 relative">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="search-input" placeholder="Tìm món trà sữa, đồ ăn vặt..." class="w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white rounded-full py-2 pl-10 pr-4 outline-none focus:ring-2 focus:ring-secondary/50 transition-all font-semibold">
+            </div>
         </div>
     </header>
 
-    <section id="home" class="min-h-screen flex items-center pt-20 relative overflow-hidden">
-        <div class="absolute top-20 left-10 w-32 h-32 bg-secondary/20 rounded-full blur-2xl"></div>
-        <div class="absolute bottom-20 right-10 w-48 h-48 bg-accent/20 rounded-full blur-2xl"></div>
-
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
-            <div class="w-full md:w-1/2 text-center md:text-left z-10">
-                <h1 class="text-5xl md:text-7xl font-cute font-extrabold mb-4 leading-tight">
-                    Ngon như <span class="text-secondary">xoài</span> <br>
-                    Chill như <span class="text-secondary">sóc</span>
-                </h1>
-                <p class="text-lg md:text-xl mb-8 opacity-80">
-                    Góc nhỏ bình yên nạp năng lượng cho ngày dài. Đồ uống ngon, ăn vặt đỉnh, mời bạn ghé chơi! 🥤✨
-                </p>
-                <a href="#menu" class="inline-block bg-secondary text-white text-xl font-bold font-cute px-8 py-4 rounded-full shadow-[0_8px_0_#d9922b] hover:shadow-[0_4px_0_#d9922b] hover:translate-y-1 transition-all">
-                    Xem Menu & Đặt Món 👇
-                </a>
+    <main class="pt-32 pb-10 container mx-auto px-4 min-h-screen">
+        <div id="menu-container" class="space-y-10">
             </div>
-            <div class="w-full md:w-1/2 flex justify-center z-10 animate-float">
-                <div class="text-[120px] md:text-[180px] drop-shadow-2xl relative">
-                    🐿️
-                    <span class="absolute bottom-0 -right-4 text-[80px] md:text-[120px] drop-shadow-lg">🥭</span>
-                    <span class="absolute top-10 -left-10 text-[60px] md:text-[80px] drop-shadow-lg animate-pulse">🧋</span>
+    </main>
+
+    <div class="fixed bottom-28 right-4 flex flex-col gap-3 z-30">
+        <a href="tel:0985142598" class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-xl shadow-[0_4px_15px_rgba(34,197,94,0.4)] hover:scale-110 transition-transform">
+            <i class="fas fa-phone-alt"></i>
+        </a>
+        <a href="https://m.me/luong.kute.568" target="_blank" class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl shadow-[0_4px_15px_rgba(59,130,246,0.4)] hover:scale-110 transition-transform">
+            <i class="fab fa-facebook-messenger"></i>
+        </a>
+    </div>
+
+    <div id="sticky-cart" class="fixed bottom-0 left-0 w-full bg-white dark:bg-darkCard shadow-[0_-10px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_20px_rgba(0,0,0,0.3)] z-40 transform translate-y-full transition-transform duration-300 border-t border-gray-100 dark:border-gray-800 env-pb">
+        <div id="freeship-hint" class="w-full bg-primary/40 dark:bg-yellow-900/30 text-center text-xs font-bold py-1 text-secondary dark:text-yellow-400 transition-colors">
+            Mua thêm 0đ để được FREESHIP 🚀
+        </div>
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center cursor-pointer touch-target" id="cart-bar-trigger">
+            <div class="flex items-center gap-4">
+                <div class="relative w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-2xl" id="cart-icon-target">
+                    🛒
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-accent text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-sm transition-transform">0</span>
+                </div>
+                <div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider">Tạm tính</div>
+                    <div class="text-secondary font-cute font-bold text-xl leading-none" id="cart-total-bar">0đ</div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="menu" class="py-20 bg-white dark:bg-darkCard transition-colors duration-300 rounded-t-[3rem] -mt-10 relative z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] pb-32">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-cute font-bold text-secondary mb-3">Menu Của Tiệm 📖</h2>
-                <p class="text-lg opacity-80">Chọn món đi nào, bấm nút <span class="bg-secondary/30 text-secondary p-1 rounded-full px-2 font-bold">+</span> để thêm vào giỏ hàng nha!</p>
-            </div>
-
-            <div class="mb-16">
-                <h3 class="text-3xl font-cute font-bold mb-6 flex items-center gap-3 border-b-2 border-primary pb-2 dark:border-gray-700">
-                    <span class="bg-secondary text-white p-2 rounded-xl">🧋</span> Trà & Trà Sữa
-                </h3>
-                <div id="milk-tea-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
-            </div>
-
-            <div class="mb-16">
-                <h3 class="text-3xl font-cute font-bold mb-6 flex items-center gap-3 border-b-2 border-primary pb-2 dark:border-gray-700">
-                    <span class="bg-accent text-white p-2 rounded-xl">🥛</span> Sữa Chua & Nước Ép
-                </h3>
-                <div id="yogurt-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
-            </div>
-
-            <div>
-                <h3 class="text-3xl font-cute font-bold mb-6 flex items-center gap-3 border-b-2 border-primary pb-2 dark:border-gray-700">
-                    <span class="bg-orange-400 text-white p-2 rounded-xl">🌮</span> Đồ Ăn Vặt
-                </h3>
-                <div id="snacks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="cart-bar" class="fixed bottom-0 left-0 w-full bg-white/95 dark:bg-darkCard/95 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] backdrop-blur-md p-4 flex justify-between items-center z-40 transform translate-y-full transition-transform duration-300 rounded-t-2xl border-t border-secondary/20 hidden">
-        <div class="flex items-center gap-4">
-            <div class="text-4xl relative">
-                🛒
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">0</span>
-            </div>
-            <div>
-                <div class="font-bold text-lg">Đơn hàng của bạn</div>
-                <div class="text-accent font-cute font-bold text-xl">Tổng: <span id="cart-total">0</span>k</div>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <button onclick="clearCart()" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-5 py-3 rounded-full font-bold hover:bg-gray-300 transition-colors">
-                Xóa
-            </button>
-            <button onclick="sendOrderToMessenger()" class="bg-secondary text-white px-6 py-3 rounded-full font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-2">
-                <i class="fab fa-facebook-messenger"></i> Gửi đơn ngay
+            <button id="btn-open-cart-bar" class="bg-secondary text-white px-6 py-3 rounded-full font-bold shadow-md active:scale-95 transition-transform flex items-center gap-2">
+                Xem giỏ <i class="fas fa-chevron-up text-sm"></i>
             </button>
         </div>
     </div>
 
-    <section id="about" class="py-20">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
-            <div class="w-full md:w-1/2 flex justify-center">
-                <div class="relative w-72 h-72 bg-white dark:bg-darkCard rounded-[3rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 flex items-center justify-center text-8xl">
-                    🏡
-                    <div class="absolute -bottom-6 -right-6 text-6xl animation-bounce-slow">🐿️</div>
-                    <div class="absolute -top-6 -left-6 text-6xl animation-bounce-slow" style="animation-delay: 1s">🥭</div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/2 text-center md:text-left">
-                <h2 class="text-4xl md:text-5xl font-cute font-bold text-secondary mb-6">Câu Chuyện Của Tiệm 🌟</h2>
-                <p class="text-lg leading-relaxed mb-4">
-                    Chào mừng bạn đến với <b>Tiệm Nhà Sóc Xoài</b>! Nơi trú ẩn lý tưởng cho những tâm hồn hảo ngọt, thích nhâm nhi trà sữa và tám chuyện cùng bạn bè. 
-                </p>
-                <p class="text-lg leading-relaxed mb-6">
-                    Được sáng lập bởi tình yêu với đồ ăn vặt của đôi bạn <b>Sóc</b> và <b>Xoài</b>. Tiệm cam kết mang đến những ly nước mát lạnh, những phần bánh tráng đậm vị được làm từ nguyên liệu tươi ngon nhất.
-                </p>
-                <p class="font-cute text-xl text-accent font-bold">"Niềm vui của bạn là động lực của chúng mình!"</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-20 bg-white dark:bg-darkCard transition-colors duration-300 rounded-t-[3rem] relative z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl md:text-5xl font-cute font-bold text-secondary mb-10">Ghé Chơi Với Chúng Chúng Mình Nhé! 🛵</h2>
+    <div id="cart-overlay" class="fixed inset-0 glass-overlay z-50 flex flex-col justify-end">
+        <div id="cart-sheet" class="bottom-sheet bg-gray-50 dark:bg-darkBg w-full md:w-[600px] md:mx-auto rounded-t-3xl shadow-2xl flex flex-col relative pb-env h-[90vh]">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <a href="tel:0985142598" class="bg-primary/20 dark:bg-darkBg p-8 rounded-3xl menu-card block group">
-                        <div class="text-4xl text-accent mb-4 group-hover:animate-bounce"><i class="fas fa-phone-alt"></i></div>
-                        <h4 class="font-cute font-bold text-2xl mb-2 text-secondary">Hotline Đặt Món</h4>
-                        <p class="text-2xl font-bold text-gray-800 dark:text-white">0985.142.598</p>
-                        <p class="text-sm opacity-70 mt-1">Bấm để gọi ngay!</p>
-                    </a>
-
-                    <a href="https://www.google.com/maps/place/B%C3%A1ng+Tr%C3%A1ng+Xo%C3%A0i+S%C3%B3c/@20.0961836,106.2742404,19z/data=!4m6!3m5!1s0x313611002e13c06f:0x3398d382bbfdda07!8m2!3d20.0961835!4d106.2745724!16s%2Fg%2F11xyp5qt7f?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="bg-primary/20 dark:bg-darkBg p-8 rounded-3xl menu-card block group">
-                        <div class="text-4xl text-accent mb-4 group-hover:animate-bounce"><i class="fas fa-map-marker-alt"></i></div>
-                        <h4 class="font-cute font-bold text-2xl mb-2 text-secondary">Địa Chỉ</h4>
-                        <p class="text-lg">Khu Phố Ăn Vặt, Phường Trà Sữa,<br>Quận Ú Nu, TP. Vui Vẻ</p>
-                        <p class="text-sm opacity-70 mt-1">Bấm để xem bản đồ!</p>
-                    </a>
-
-                    <div class="bg-primary/20 dark:bg-darkBg p-8 rounded-3xl menu-card col-span-1 sm:col-span-2">
-                        <div class="text-4xl text-accent mb-4"><i class="fas fa-heart"></i></div>
-                        <h4 class="font-cute font-bold text-2xl mb-4 text-secondary">Kết Nối Online</h4>
-                        <div class="flex justify-center gap-6">
-                            <a href="https://www.facebook.com/luong.kute.568" target="_blank" rel="noopener noreferrer" class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-md">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="https://m.me/luong.kute.568" target="_blank" rel="noopener noreferrer" class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-md">
-                                <i class="fab fa-facebook-messenger"></i>
-                            </a> 
-                            <a href="#" class="w-16 h-16 bg-zalo text-white rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-md">
-                                <i class="fas fa-comment-dots"></i>
-                            </a>
-                        </div>
-                    </div>
+            <div class="p-4 bg-white dark:bg-darkCard rounded-t-3xl flex justify-between items-center border-b border-gray-100 dark:border-gray-800 shrink-0">
+                <div>
+                    <h3 class="text-xl font-cute font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                        Giỏ hàng <span class="bg-gray-100 dark:bg-gray-800 text-xs px-2 py-1 rounded-full text-gray-500" id="cart-item-count">0 món</span>
+                    </h3>
                 </div>
+                <div class="flex gap-2">
+                    <button id="btn-clear-cart" class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors touch-target">
+                        <i class="fas fa-trash-alt text-sm"></i>
+                    </button>
+                    <button id="btn-close-cart" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 flex items-center justify-center hover:bg-gray-200 transition-colors touch-target">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
 
-                <div class="bg-white dark:bg-darkCard p-10 rounded-3xl shadow-[0_15px_50px_rgba(255,184,76,0.15)] dark:shadow-[0_15px_50px_rgba(0,0,0,0.3)] border-2 border-primary group hover:border-secondary transition-colors duration-500">
-                    <div class="text-5xl text-secondary mb-6 group-hover:animate-spin" style="animation-duration: 3s"><i class="fas fa-clock"></i></div>
-                    <h4 class="font-cute font-bold text-3xl mb-6 text-secondary border-b-2 border-primary inline-block pb-2">Giờ Hoạt Động</h4>
+            <div class="p-4 overflow-y-auto flex-1 custom-scrollbar space-y-4">
+                <div id="cart-items-list" class="space-y-3"></div>
+
+                <div class="bg-white dark:bg-darkCard p-4 rounded-2xl border border-gray-100 dark:border-gray-800 space-y-4 shadow-sm">
+                    <h4 class="font-bold text-sm text-gray-500 uppercase tracking-wider"><i class="fas fa-map-marker-alt text-accent"></i> Giao hàng tới</h4>
                     
-                    <div class="space-y-3 text-left max-w-xs mx-auto text-lg font-semibold">
-                        <div class="flex justify-between items-center bg-primary/20 dark:bg-darkBg px-4 py-2 rounded-full">
-                            <span>Thứ Hai - Thứ Bảy</span>
-                            <span class="text-accent">15:00 – 22:00</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-primary/20 dark:bg-darkBg px-4 py-2 rounded-full">
-                            <span>Chủ Nhật</span>
-                            <span class="text-accent">15:00 – 22:00</span>
-                        </div>
-                        <p class="text-sm text-center font-normal opacity-70 pt-3 mt-4 border-t border-gray-100 dark:border-gray-700">Mở cửa xuyên suốt tất cả các ngày trong tuần!</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="frm-name" placeholder="Tên (*)" class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-secondary font-semibold text-sm transition-colors touch-target">
+                        <input type="tel" id="frm-phone" placeholder="SĐT (*)" class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-secondary font-semibold text-sm transition-colors touch-target">
                     </div>
+                    <textarea id="frm-notes" rows="2" placeholder="Địa chỉ giao hàng (Bắt buộc nếu có ship), Ghi chú thêm..." class="w-full p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 outline-none focus:border-secondary text-sm transition-colors touch-target"></textarea>
+                    
+                    <select id="frm-ship" class="w-full p-3 rounded-xl bg-primary/20 dark:bg-gray-800 border border-primary/50 outline-none font-bold text-gray-800 dark:text-white cursor-pointer text-sm touch-target">
+                        <option value="0" class="text-black">Tự đến lấy (0đ)</option>
+                        <option value="15" class="text-black" selected>Xã Lân Cận (15k)</option>
+                        <option value="25" class="text-black">Trên 5km (25k)</option>
+                    </select>
                 </div>
+            </div>
 
+            <div class="p-4 bg-white dark:bg-darkCard border-t border-gray-100 dark:border-gray-800 shrink-0">
+                <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-1">
+                    <span>Tiền món:</span> <span class="font-bold text-gray-800 dark:text-white" id="modal-food-val">0đ</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-3">
+                    <span>Phí ship:</span> <span class="font-bold" id="modal-ship-val">15.000đ</span>
+                </div>
+                <button id="btn-submit-order" class="w-full bg-secondary text-white py-4 rounded-2xl font-bold text-lg shadow-[0_4px_0_#d9922b] active:translate-y-1 active:shadow-none transition-all flex justify-between items-center px-6 disabled:opacity-50 disabled:cursor-not-allowed touch-target">
+                    <span class="flex items-center gap-2"><i class="fab fa-facebook-messenger"></i> Chốt đơn</span>
+                    <span id="modal-total-val" class="font-cute text-2xl">0đ</span>
+                </button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer class="bg-secondary text-white py-6 text-center">
-        <p class="font-cute text-xl mb-1">🐿️ Tiệm Nhà Sóc Xoài 🥭</p>
-        <p class="text-sm opacity-90">&copy; 2026. Designed with ❤️ for Milk Tea lovers.</p>
-    </footer>
+    <div id="variant-overlay" class="fixed inset-0 glass-overlay z-[70] flex items-center justify-center p-4">
+        <div id="variant-box" class="modal-scale bg-white dark:bg-darkCard w-full max-w-sm p-5 rounded-3xl shadow-2xl relative">
+            <button onclick="UI.closeVariantModal()" class="absolute top-4 right-4 w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-500 flex items-center justify-center touch-target"><i class="fas fa-times"></i></button>
+            <div class="flex items-center gap-3 mb-4">
+                <span id="var-icon" class="text-4xl">🍵</span>
+                <h3 id="var-name" class="font-bold text-lg dark:text-white leading-tight">Tên món</h3>
+            </div>
+            <p class="text-sm text-gray-500 mb-3 font-bold uppercase tracking-wide">Chọn Size:</p>
+            <div id="var-options" class="space-y-3 mb-6"></div>
+            <button id="btn-add-variant" class="w-full py-3 bg-secondary text-white rounded-xl font-bold shadow-md hover:scale-[1.02] transition-transform touch-target">
+                Thêm vào giỏ
+            </button>
+        </div>
+    </div>
+
+    <div id="history-overlay" class="fixed inset-0 glass-overlay z-[60] flex items-center justify-center p-4">
+        <div id="history-box" class="modal-scale bg-gray-50 dark:bg-darkBg w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 bg-white dark:bg-darkCard border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                <h3 class="font-cute font-bold text-xl text-secondary"><i class="fas fa-receipt"></i> Đơn gần đây</h3>
+                <button onclick="UI.toggleHistoryModal(true)" class="w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-500 flex items-center justify-center"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="history-list" class="p-4 overflow-y-auto space-y-4 custom-scrollbar flex-1">
+                </div>
+        </div>
+    </div>
+
+    <div id="confirm-overlay" class="fixed inset-0 glass-overlay z-[80] flex items-center justify-center p-4">
+        <div id="confirm-box" class="modal-scale bg-white dark:bg-darkCard w-full max-w-sm p-6 rounded-3xl shadow-2xl text-center">
+            <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 class="text-xl font-bold mb-2 dark:text-white">Xoá hết giỏ hàng?</h3>
+            <p class="text-gray-500 text-sm mb-6">Bạn có chắc chắn muốn bỏ hết các món đã chọn không?</p>
+            <div class="flex gap-3">
+                <button id="btn-confirm-cancel" class="flex-1 py-3 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 transition-colors touch-target">Huỷ</button>
+                <button id="btn-confirm-ok" class="flex-1 py-3 rounded-xl font-bold bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/30 transition-colors touch-target">Xoá sạch</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // --- CORE JAVASCRIPT (UI) ---
+        /** ==========================================
+         * PWA SETUP IN 1 FILE
+         * ========================================== */
+        (function setupPWA() {
+            try {
+                const manifest = {
+                    name: "Tiệm Nhà Sóc Xoài", short_name: "Sóc Xoài",
+                    display: "standalone", background_color: "#FFF3B0", theme_color: "#FFB84C",
+                    icons: [{src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐿️%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml"}]
+                };
+                const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+                const link = document.createElement('link'); link.rel = 'manifest'; link.href = URL.createObjectURL(blob);
+                document.head.appendChild(link);
+                
+                // Basic SW cache logic inline via blob
+                const swCode = `
+                    self.addEventListener('install', e => self.skipWaiting());
+                    self.addEventListener('fetch', e => {});
+                `;
+                const swBlob = new Blob([swCode], {type: 'application/javascript'});
+                if ('serviceWorker' in navigator) navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});
+            } catch(e) {}
+        })();
 
-        // 1. Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // 2. Dark Mode Toggle
-        const themeToggleBtns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
-        const themeIcons = [document.getElementById('theme-icon'), document.getElementById('theme-icon-mobile')];
-        const html = document.documentElement;
-
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-            updateIcons('dark');
-        } else {
-            html.classList.remove('dark');
-            updateIcons('light');
-        }
-
-        themeToggleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    localStorage.theme = 'light';
-                    updateIcons('light');
-                } else {
-                    html.classList.add('dark');
-                    localStorage.theme = 'dark';
-                    updateIcons('dark');
+        /** ==========================================
+         * MODULE 1: CONFIGURATION & DATA
+         * ========================================== */
+        const CONFIG = {
+            WEBHOOK_URL: "https://script.google.com/macros/s/AKfycbz_REPLACE_ME/exec",
+            FB_MESSENGER: "https://m.me/luong.kute.568",
+            FREESHIP_THRESHOLD: 75, // [NÂNG CẤP]
+            MENU_DATA: [
+                {
+                    category: "🧋 Trà & Trà Sữa", id: "cat-tea",
+                    items: [
+                        { id: 'ts01', name: "Trà sữa gạo rang", price: 25, icon: "🌾", badge: "🔥 Hot" },
+                        { id: 'ts02', name: "Trà sữa truyền thống full topping", price: 25, icon: "🍮" },
+                        { id: 'ts03', name: "Trà sữa hạt dẻ", price: 25, icon: "🌰" },
+                        { id: 'ts04', name: "Trà sữa phô mai", price: 25, icon: "🧀", badge: "⭐ Bán chạy" },
+                        // [NÂNG CẤP] Món có options/variants
+                        { id: 'ts05', name: "Matcha latte kem", price: 25, icon: "🍵", displayPrice: "25-30k", variants: [{v: "Size M", p: 25}, {v: "Size L", p: 30}] },
+                        { id: 'ts06', name: "Cacao latte", price: 20, icon: "🍫", displayPrice: "20-25k", variants: [{v: "Size M", p: 20}, {v: "Size L", p: 25}] },
+                        { id: 'ts07', name: "Milo dầm", price: 20, icon: "🥤", badge: "🔥 Hot" },
+                        { id: 'ts08', name: "Trà tắc", price: 10, icon: "🍊" }
+                    ]
+                },
+                {
+                    category: "🥛 Sữa Chua & Nước Ép", id: "cat-yogurt",
+                    items: [
+                        { id: 'sc01', name: "Sữa chua việt quất", price: 25, icon: "🫐" },
+                        { id: 'sc02', name: "Sữa chua dâu", price: 25, icon: "🍓" },
+                        { id: 'sc03', name: "Sữa chua chanh dây", price: 25, icon: "🍋" },
+                        { id: 'sc04', name: "Sữa chua dưa lưới", price: 25, icon: "🍈" },
+                        { id: 'sc05', name: "Sữa chua đào", price: 25, icon: "🍑" },
+                        { id: 'sd01', name: "Soda dâu", price: 15, icon: "🍹" },
+                        { id: 'sd02', name: "Soda chanh dây", price: 15, icon: "🍹" },
+                        { id: 'sd03', name: "Soda dưa lưới", price: 15, icon: "🍹" },
+                        { id: 'sd04', name: "Soda việt quất", price: 15, icon: "🍹" },
+                        { id: 'sd05', name: "Nước cam", price: 15, icon: "🍊", displayPrice: "15-20k", variants: [{v: "Ly nhỏ", p: 15}, {v: "Ly lớn", p: 20}] }
+                    ]
+                },
+                {
+                    category: "🌮 Đồ Ăn Vặt", id: "cat-snack",
+                    items: [
+                        { id: 'an01', name: "Bánh tráng trộn", price: 15, icon: "🥗", displayPrice: "15-20k", badge: "⭐ Bán chạy", variants: [{v: "Hộp nhỏ", p: 15}, {v: "Hộp lớn", p: 20}] },
+                        { id: 'an02', name: "Bánh tráng cuộn", price: 20, icon: "🌯", displayPrice: "20-25k", variants: [{v: "Phần vừa", p: 20}, {v: "Phần lớn", p: 25}] },
+                        { id: 'an03', name: "Bánh mì nướng muối ớt", price: 15, icon: "🥖", displayPrice: "15-25k", variants: [{v: "1 Ổ", p: 15}, {v: "2 Ổ", p: 25}] },
+                        { id: 'an04', name: "Cá viên", price: 20, icon: "🍡" },
+                        { id: 'an05', name: "Bò viên", price: 20, icon: "🧆" },
+                        { id: 'an06', name: "Tôm viên", price: 20, icon: "🍤" },
+                        { id: 'an07', name: "Lạp xưởng", price: 15, icon: "🍖" },
+                        { id: 'an08', name: "Xúc xích", price: 10, icon: "🌭" }
+                    ]
                 }
-            });
-        });
-
-        function updateIcons(theme) {
-            themeIcons.forEach(icon => {
-                if (theme === 'dark') {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                    icon.style.color = '#FFB84C'; // Sun color
-                } else {
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                    icon.style.color = ''; // Reset
-                }
-            });
-        }
-
-        // --- MENU & CART JAVASCRIPT (FEATURES) ---
-
-        // MENU DATA WITH DIVERSE ICONS & BASE PRICES
-        const menuData = {
-            milkTea: [
-                { id: 'ts01', name: "Trà sữa gạo rang", price: 25, icon: "🌾🧋" },
-                { id: 'ts02', name: "Trà sữa truyền thống full topping", price: 25, icon: "🍮🧋" },
-                { id: 'ts03', name: "Trà sữa hạt dẻ", price: 25, icon: "🌰🧋" },
-                { id: 'ts04', name: "Trà sữa phô mai", price: 25, icon: "🧀🧋" },
-                { id: 'ts05', name: "Matcha latte kem", price: 25, icon: "🍵🍦", priceDisplay: "25-30k" },
-                { id: 'ts06', name: "Cacao latte", price: 20, icon: "🍫🥛", priceDisplay: "20-25k" },
-                { id: 'ts07', name: "Milo dầm", price: 20, icon: "🥤🍫" },
-                { id: 'ts08', name: "Trà tắc", price: 10, icon: "🍊🍵" }
-            ],
-            yogurt: [
-                { id: 'sc01', name: "Sữa chua việt quất", price: 25, icon: "🫐🥛" },
-                { id: 'sc02', name: "Sữa chua dâu", price: 25, icon: "🍓🥛" },
-                { id: 'sc03', name: "Sữa chua chanh dây", price: 25, icon: "🍋🥛" },
-                { id: 'sc04', name: "Sữa chua dưa lưới", price: 25, icon: "🍈🥛" },
-                { id: 'sc05', name: "Sữa chua đào", price: 25, icon: "🍑🥛" },
-                { id: 'sd01', name: "Soda dâu", price: 15, icon: "🍓🍹" },
-                { id: 'sd02', name: "Soda chanh dây", price: 15, icon: "🍋🍹" },
-                { id: 'sd03', name: "Soda dưa lưới", price: 15, icon: "🍈🍹" },
-                { id: 'sd04', name: "Soda việt quất", price: 15, icon: "🫐🍹" },
-                { id: 'sd05', name: "Nước cam", price: 15, icon: "🍊🥤", priceDisplay: "15-20k" }
-            ],
-            snacks: [
-                { id: 'an01', name: "Bánh tráng trộn", price: 15, icon: "🥗🌮", priceDisplay: "15-20k" },
-                { id: 'an02', name: "Bánh tráng cuộn", price: 20, icon: "🌯🌮", priceDisplay: "20-25k" },
-                { id: 'an03', name: "Bánh mì nướng muối ớt", price: 15, icon: "🥖🧂", priceDisplay: "15-25k" },
-                { id: 'an04', name: "Cá viên", price: 20, icon: "🍡🍡" },
-                { id: 'an05', name: "Bò viên", price: 20, icon: "🧆🧆" },
-                { id: 'an06', name: "Tôm viên", price: 20, icon: "🍤🍤" },
-                { id: 'an07', name: "Lạp xưởng", price: 15, icon: "🍖🔥" },
-                { id: 'an08', name: "Xúc xích", price: 10, icon: "🌭🌭" }
             ]
         };
 
-        // CART STATE
-        let cart = {}; // ID -> {name, price, icon, quantity}
+        /** ==========================================
+         * MODULE 2: UTILITIES & HELPERS
+         * ========================================== */
+        const Utils = {
+            formatMoney: (k) => (k * 1000).toLocaleString('vi-VN') + 'đ',
+            generateOrderID: () => `ORDER-${Math.random().toString(36).substr(2, 5).toUpperCase()}`,
+            getISO: () => new Date().toISOString(),
+            playSound: (id) => { const audio = document.getElementById(id); if(audio) { audio.currentTime = 0; audio.play().catch(()=>{}); } },
+            debounce: (func, wait) => { let timeout; return (...args) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; },
+            validatePhone: (phone) => /(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(phone),
+            removeAccents: (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() // [NÂNG CẤP] Xóa dấu để search
+        };
 
-        // Initialize Menu
-        function initMenu() {
-            populateCategory('milk-tea-container', menuData.milkTea, 'border-secondary');
-            populateCategory('yogurt-container', menuData.yogurt, 'border-accent');
-            populateCategory('snacks-container', menuData.snacks, 'border-orange-400');
-        }
+        /** ==========================================
+         * MODULE 3: STATE MANAGEMENT (LOCAL STORAGE)
+         * ========================================== */
+        const State = {
+            cart: JSON.parse(localStorage.getItem('sx_cart_pro')) || {},
+            user: JSON.parse(localStorage.getItem('sx_user')) || { name: '', phone: '', address: '' },
+            orderHistory: JSON.parse(localStorage.getItem('sx_history')) || [], // [NÂNG CẤP]
+            searchQuery: '', // [NÂNG CẤP]
+            lastAddedId: null, // Track flash anim
+            isOffline: !navigator.onLine,
+            
+            saveCart: () => localStorage.setItem('sx_cart_pro', JSON.stringify(State.cart)),
+            saveUser: () => localStorage.setItem('sx_user', JSON.stringify(State.user)),
+            saveHistory: () => {
+                if(State.orderHistory.length > 10) State.orderHistory.shift(); // Keep max 10
+                localStorage.setItem('sx_history', JSON.stringify(State.orderHistory));
+            },
+            clearCart: () => { State.cart = {}; State.saveCart(); }
+        };
 
-        function populateCategory(containerId, items, borderClass) {
-            const container = document.getElementById(containerId);
-            items.forEach(item => {
-                const priceText = item.priceDisplay ? item.priceDisplay : `${item.price}k`;
-                container.innerHTML += `
-                    <div class="menu-card bg-primary/30 dark:bg-darkBg p-4 rounded-2xl flex justify-between items-center border-2 border-transparent hover:${borderClass} group">
-                        <div class="flex items-center gap-3">
-                            <div class="text-4xl group-hover:scale-110 transition-transform">${item.icon}</div>
-                            <div class="font-bold text-lg leading-tight text-gray-800 dark:text-white">${item.name}</div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="text-accent font-cute font-bold text-xl bg-white dark:bg-darkCard px-3 py-1 rounded-lg shadow-sm whitespace-nowrap">${priceText}</div>
-                            <button onclick="addToCart('${item.id}', '${item.name}', ${item.price}, '${item.icon}')" class="bg-secondary text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-2xl shadow-md hover:bg-secondary/90 hover:scale-110 active:scale-95 transition-all">+</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Add to cart function
-        function addToCart(id, name, price, icon) {
-            if (cart[id]) {
-                cart[id].quantity += 1;
-            } else {
-                cart[id] = { name, price, icon, quantity: 1 };
-            }
-            updateCartUI();
-        }
-
-        // Clear Cart
-        function clearCart() {
-            cart = {};
-            updateCartUI();
-        }
-
-        // Update Cart Bar UI
-        const cartBar = document.getElementById('cart-bar');
-        const cartCount = document.getElementById('cart-count');
-        const cartTotal = document.getElementById('cart-total');
-
-        function updateCartUI() {
-            let totalItems = 0;
-            let totalPrice = 0;
-
-            for (const id in cart) {
-                totalItems += cart[id].quantity;
-                totalPrice += cart[id].price * cart[id].quantity;
-            }
-
-            if (totalItems > 0) {
-                cartCount.innerText = totalItems;
-                cartTotal.innerText = totalPrice;
-                cartBar.classList.remove('hidden');
-                cartBar.classList.remove('translate-y-full');
-            } else {
-                cartBar.classList.add('translate-y-full');
-                setTimeout(() => { if (totalItems === 0) cartBar.classList.add('hidden'); }, 300);
-            }
-        }
-
-        // --- ORDER & COPY JAVASCRIPT (FEATURE) ---
-
-        // Send order to messenger function
-        function sendOrderToMessenger() {
-            // 1. Format the order text
-            let orderText = "Đơn hàng Sóc Xoài:\n---\n";
-            let totalPrice = 0;
-
-            for (const id in cart) {
-                const item = cart[id];
-                const itemTotal = item.price * item.quantity;
-                orderText += `${item.icon} ${item.name} x${item.quantity} = ${itemTotal}k\n`;
-                totalPrice += itemTotal;
-            }
-
-            orderText += `---\n💰 Tổng cộng: ${totalPrice}k`;
-
-            // 2. Copy to clipboard using modern API
-            navigator.clipboard.writeText(orderText).then(() => {
-                // 3. Show Toast Notification
-                showToast();
-
-                // 4. Redirect to Messenger after a short delay
+        /** ==========================================
+         * MODULE 4: UI CONTROLLER
+         * ========================================== */
+        const UI = {
+            init: () => {
+                UI.renderSkeletons();
                 setTimeout(() => {
-                    const messengerUrl = "https://m.me/luong.kute.568";
-                    window.open(messengerUrl, '_blank');
-                }, 1200);
+                    UI.renderMenu();
+                    UI.updateCartBar();
+                    UI.loadUserInfo();
+                }, 400);
+                UI.setupEvents();
+                UI.checkTheme();
+            },
 
-            }).catch(err => {
-                console.error('Lỗi khi copy đơn hàng: ', err);
-                alert('Không thể tự động copy. Bạn hãy nhắn trực tiếp cho quán nhé!');
-                // Still try to open messenger
-                window.open("https://m.me/luong.kute.568", '_blank');
-            });
-        }
+            renderSkeletons: () => {
+                let html = '';
+                [1,2].forEach(i => {
+                    html += `<div class="mb-8"><div class="h-8 w-48 skeleton rounded-lg mb-4"></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">`;
+                    [1,2,3,4].forEach(j => { html += `<div class="p-4 rounded-2xl border border-gray-100 dark:border-gray-800 flex justify-between"><div class="flex gap-3"><div class="w-10 h-10 skeleton rounded-full"></div><div class="space-y-2"><div class="w-24 h-4 skeleton rounded"></div><div class="w-16 h-4 skeleton rounded"></div></div></div></div>`; });
+                    html += `</div></div>`;
+                });
+                document.getElementById('menu-container').innerHTML = html;
+            },
 
-        function showToast() {
-            const toast = document.getElementById("toast");
-            toast.className = "show bg-accent text-white font-cute font-bold shadow-lg";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-        }
+            // [NÂNG CẤP] Có filter tìm kiếm
+            renderMenu: () => {
+                const container = document.getElementById('menu-container');
+                const query = Utils.removeAccents(State.searchQuery);
+                let html = '';
+                let foundAny = false;
 
-        // Initialize menu on load
-        window.onload = initMenu;
+                CONFIG.MENU_DATA.forEach(category => {
+                    const filteredItems = category.items.filter(item => Utils.removeAccents(item.name).includes(query));
+                    if (filteredItems.length === 0) return;
+                    foundAny = true;
 
+                    html += `
+                        <div class="mb-10">
+                            <h3 class="text-2xl font-cute font-bold mb-4 border-b-2 border-primary/50 pb-2 dark:text-white">${category.category}</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                ${filteredItems.map(item => {
+                                    // Data string for variant processing
+                                    const variantStr = item.variants ? encodeURIComponent(JSON.stringify(item.variants)) : '';
+                                    return `
+                                    <div class="menu-card relative bg-white dark:bg-darkCard p-4 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm flex justify-between items-center group">
+                                        ${item.badge ? `<span class="absolute -top-2 -left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-br-lg rounded-tl-lg shadow-md z-10">${item.badge}</span>` : ''}
+                                        <div class="flex items-center gap-3 pr-2 flex-1">
+                                            <div class="text-4xl group-hover:scale-110 transition-transform" id="icon-${item.id}">${item.icon}</div>
+                                            <div>
+                                                <div class="font-bold text-gray-800 dark:text-white leading-tight">${item.name}</div>
+                                                <div class="text-secondary font-semibold text-sm mt-0.5">${item.displayPrice || Utils.formatMoney(item.price)}</div>
+                                            </div>
+                                        </div>
+                                        <button class="btn-add-item touch-target bg-primary/20 hover:bg-secondary text-secondary hover:text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl transition-colors focus:outline-none shrink-0" 
+                                                data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" data-icon="${item.icon}" data-variants="${variantStr}">
+                                            +
+                                        </button>
+                                    </div>
+                                `}).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if(!foundAny) html = `<div class="text-center py-10 text-gray-400 font-bold"><div class="text-5xl mb-2">😢</div>Không tìm thấy món nào!</div>`;
+                container.innerHTML = html;
+            },
+
+            // [NÂNG CẤP] Modal chọn Size
+            openVariantModal: (id, name, icon, variantsStr, btnElement) => {
+                const variants = JSON.parse(decodeURIComponent(variantsStr));
+                document.getElementById('var-icon').innerText = icon;
+                document.getElementById('var-name').innerText = name;
+                
+                let optsHtml = '';
+                variants.forEach((v, idx) => {
+                    optsHtml += `
+                    <label class="flex items-center justify-between p-3 border rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-gray-200 dark:border-gray-700 touch-target has-[:checked]:border-secondary has-[:checked]:bg-primary/10">
+                        <div class="flex items-center gap-2">
+                            <input type="radio" name="var_opt" value="${idx}" class="w-5 h-5 text-secondary accent-secondary" ${idx===0 ? 'checked' : ''}>
+                            <span class="font-bold dark:text-white">${v.v}</span>
+                        </div>
+                        <span class="text-secondary font-bold">${Utils.formatMoney(v.p)}</span>
+                    </label>`;
+                });
+                document.getElementById('var-options').innerHTML = optsHtml;
+                
+                // Set action
+                document.getElementById('btn-add-variant').onclick = () => {
+                    const selectedIdx = document.querySelector('input[name="var_opt"]:checked').value;
+                    const v = variants[selectedIdx];
+                    CartController.add(`${id}_${selectedIdx}`, `${name} (${v.v})`, v.p, icon);
+                    UI.closeVariantModal();
+                    UI.flyToCartAnim(btnElement, icon);
+                };
+
+                document.getElementById('variant-overlay').classList.add('active');
+                setTimeout(() => document.getElementById('variant-box').classList.add('active'), 10);
+            },
+            closeVariantModal: () => {
+                document.getElementById('variant-box').classList.remove('active');
+                setTimeout(() => document.getElementById('variant-overlay').classList.remove('active'), 300);
+            },
+
+            renderCartItems: () => {
+                const list = document.getElementById('cart-items-list');
+                if(Object.keys(State.cart).length === 0) {
+                    list.innerHTML = `<div class="text-center py-8 opacity-50"><div class="text-5xl mb-2">🛒</div><p class="font-bold">Giỏ hàng trống trơn</p></div>`;
+                    return;
+                }
+
+                let html = '';
+                for (const [id, item] of Object.entries(State.cart)) {
+                    // [NÂNG CẤP] Highlight flash nếu là món vừa thêm
+                    const isNew = id === State.lastAddedId ? 'animate-flash-bg' : '';
+                    html += `
+                        <div class="flex justify-between items-center bg-white dark:bg-darkCard p-3 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm ${isNew}">
+                            <div class="flex items-center gap-3 flex-1 overflow-hidden">
+                                <span class="text-3xl shrink-0">${item.icon}</span>
+                                <div class="truncate pr-2">
+                                    <div class="font-bold text-gray-800 dark:text-white text-sm truncate">${item.name}</div>
+                                    <div class="text-secondary font-semibold text-xs">${Utils.formatMoney(item.price)}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <div class="flex items-center gap-1 bg-gray-50 dark:bg-gray-900 rounded-xl p-1 border border-gray-100 dark:border-gray-800">
+                                    <button onclick="CartController.updateQty('${id}', -1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors touch-target"><i class="fas fa-minus text-xs"></i></button>
+                                    <input type="number" value="${item.qty}" onchange="CartController.setQty('${id}', this.value)" class="w-8 text-center font-bold bg-transparent border-none outline-none dark:text-white p-0 touch-target text-sm">
+                                    <button onclick="CartController.updateQty('${id}', 1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-secondary bg-primary/20 hover:bg-primary/40 transition-colors touch-target"><i class="fas fa-plus text-xs"></i></button>
+                                </div>
+                                <button onclick="CartController.removeItem('${id}')" class="w-8 h-8 rounded-lg flex items-center justify-center text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors touch-target"><i class="fas fa-trash-alt text-sm"></i></button>
+                            </div>
+                        </div>
+                    `;
+                }
+                list.innerHTML = html;
+                State.lastAddedId = null; // Reset
+            },
+
+            updateCartBar: () => {
+                let count = 0, total_k = 0;
+                for (const id in State.cart) { count += State.cart[id].qty; total_k += State.cart[id].price * State.cart[id].qty; }
+
+                // [NÂNG CẤP] Logic Freeship UI
+                const bar = document.getElementById('sticky-cart');
+                const badge = document.getElementById('cart-badge');
+                const btnSubmit = document.getElementById('btn-submit-order');
+                const hint = document.getElementById('freeship-hint');
+                
+                document.getElementById('cart-total-bar').innerText = Utils.formatMoney(total_k);
+                badge.innerText = count;
+                
+                if(count > 0) {
+                    bar.classList.remove('translate-y-full');
+                    badge.classList.add('scale-125'); setTimeout(() => badge.classList.remove('scale-125'), 200);
+                    
+                    if(total_k >= CONFIG.FREESHIP_THRESHOLD) {
+                        hint.innerHTML = `🎉 Tuyệt vời! Đã đạt <b>FREESHIP</b>`;
+                        hint.className = "w-full bg-green-500/10 text-center text-xs font-bold py-1 text-green-600 transition-colors";
+                        btnSubmit.classList.add('animate-shake-lite');
+                    } else {
+                        const delta = CONFIG.FREESHIP_THRESHOLD - total_k;
+                        hint.innerHTML = `Mua thêm <b>${delta}k</b> để FREESHIP 🚀`;
+                        hint.className = "w-full bg-primary/40 dark:bg-yellow-900/30 text-center text-xs font-bold py-1 text-secondary dark:text-yellow-400 transition-colors";
+                        btnSubmit.classList.remove('animate-shake-lite');
+                    }
+                } else {
+                    bar.classList.add('translate-y-full');
+                    UI.closeCartModal();
+                }
+
+                // Update Modal values
+                document.getElementById('cart-item-count').innerText = `${count} món`;
+                document.getElementById('modal-food-val').innerText = Utils.formatMoney(total_k);
+                
+                const shipVal = parseInt(document.getElementById('frm-ship').value);
+                const finalShip_k = total_k >= CONFIG.FREESHIP_THRESHOLD ? 0 : shipVal;
+                
+                const shipEl = document.getElementById('modal-ship-val');
+                if(total_k >= CONFIG.FREESHIP_THRESHOLD && shipVal > 0) {
+                    shipEl.innerHTML = `<span class="line-through text-gray-400 mr-1">${Utils.formatMoney(shipVal)}</span><span class="text-success">0đ</span>`;
+                } else { shipEl.innerText = Utils.formatMoney(shipVal); }
+                
+                document.getElementById('modal-total-val').innerText = Utils.formatMoney(total_k + finalShip_k);
+                btnSubmit.disabled = count === 0;
+
+                UI.renderCartItems();
+            },
+
+            showToast: (msg, type = 'success') => {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                const colors = { success: 'bg-green-600 text-white', error: 'bg-red-500 text-white', info: 'bg-gray-800 text-white' };
+                const icons = { success: '<i class="fas fa-check-circle"></i>', error: '<i class="fas fa-exclamation-circle"></i>', info: '<i class="fas fa-info-circle"></i>' };
+                
+                toast.className = `toast-msg ${colors[type]} px-5 py-3 rounded-full shadow-2xl font-bold text-sm flex items-center gap-2 border border-white/10`;
+                toast.innerHTML = `${icons[type]} ${msg}`;
+                
+                container.appendChild(toast);
+                Utils.playSound(type === 'success' ? 'sound-pop' : '');
+                
+                setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(-20px)'; setTimeout(() => toast.remove(), 300); }, 2500);
+            },
+
+            toggleCartModal: (forceClose = false) => {
+                const overlay = document.getElementById('cart-overlay');
+                const sheet = document.getElementById('cart-sheet');
+                if(forceClose || overlay.classList.contains('active')) {
+                    sheet.classList.remove('active'); setTimeout(() => overlay.classList.remove('active'), 300);
+                } else {
+                    if(Object.keys(State.cart).length === 0) { UI.showToast("Giỏ hàng đang trống", "info"); return; }
+                    UI.updateCartBar(); overlay.classList.add('active'); setTimeout(() => sheet.classList.add('active'), 10);
+                }
+            },
+            closeCartModal: () => UI.toggleCartModal(true),
+
+            showConfirmClear: () => {
+                document.getElementById('confirm-overlay').classList.add('active');
+                setTimeout(() => document.getElementById('confirm-box').classList.add('active'), 10);
+            },
+            closeConfirm: () => {
+                document.getElementById('confirm-box').classList.remove('active');
+                setTimeout(() => document.getElementById('confirm-overlay').classList.remove('active'), 300);
+            },
+
+            // [NÂNG CẤP] History Modal
+            toggleHistoryModal: (forceClose = false) => {
+                const overlay = document.getElementById('history-overlay');
+                const box = document.getElementById('history-box');
+                const list = document.getElementById('history-list');
+
+                if(forceClose || overlay.classList.contains('active')) {
+                    box.classList.remove('active'); setTimeout(() => overlay.classList.remove('active'), 300);
+                } else {
+                    // Build list
+                    if(State.orderHistory.length === 0) {
+                        list.innerHTML = `<div class="text-center py-10 opacity-50"><i class="fas fa-box-open text-4xl mb-2"></i><p>Chưa có đơn hàng nào</p></div>`;
+                    } else {
+                        list.innerHTML = State.orderHistory.slice().reverse().map(o => `
+                            <div class="p-3 border border-gray-100 dark:border-gray-800 rounded-2xl bg-white dark:bg-darkCard shadow-sm">
+                                <div class="flex justify-between items-center mb-2 border-b border-gray-50 dark:border-gray-800 pb-2">
+                                    <span class="text-xs font-bold text-gray-500">${new Date(o.date).toLocaleString('vi-VN')}</span>
+                                    <span class="text-xs font-bold text-success bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded">Thành công</span>
+                                </div>
+                                <div class="text-sm font-semibold mb-2 dark:text-gray-300">${o.itemsStr}</div>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span class="font-bold text-secondary text-lg">${o.total}</span>
+                                    <button onclick="CartController.reorder('${o.id}')" class="text-xs bg-primary/20 text-accent font-bold px-3 py-1.5 rounded-lg hover:bg-primary/40 touch-target"><i class="fas fa-redo"></i> Đặt lại</button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                    overlay.classList.add('active'); setTimeout(() => box.classList.add('active'), 10);
+                }
+            },
+
+            flyToCartAnim: (btn, iconText) => {
+                const rect = btn.getBoundingClientRect();
+                const targetRect = document.getElementById('cart-icon-target').getBoundingClientRect();
+                const clone = document.createElement('div');
+                clone.innerText = iconText; clone.className = 'fixed text-3xl z-[100] pointer-events-none drop-shadow-lg';
+                clone.style.left = `${rect.left}px`; clone.style.top = `${rect.top}px`;
+                clone.style.setProperty('--tx', `${targetRect.left - rect.left}px`);
+                clone.style.setProperty('--ty', `${targetRect.top - rect.top}px`);
+                clone.style.animation = 'flyItem 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards';
+                document.body.appendChild(clone); setTimeout(() => clone.remove(), 600);
+            },
+
+            // [NÂNG CẤP] Auto fill Form
+            loadUserInfo: () => {
+                document.getElementById('frm-name').value = State.user.name;
+                document.getElementById('frm-phone').value = State.user.phone;
+                document.getElementById('frm-notes').value = State.user.address;
+            },
+            saveUserInfoOnTyping: () => {
+                State.user.name = document.getElementById('frm-name').value;
+                State.user.phone = document.getElementById('frm-phone').value;
+                State.user.address = document.getElementById('frm-notes').value;
+                State.saveUser();
+            },
+
+            // [NÂNG CẤP] FIX BUGS: Darkmode classList issue
+            checkTheme: () => {
+                const docClass = document.documentElement.classList;
+                if(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    docClass.add('dark'); document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    docClass.remove('dark'); document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            },
+
+            setupEvents: () => {
+                const container = document.getElementById('menu-container');
+                
+                const addAction = (btn) => {
+                    const variantsStr = btn.dataset.variants;
+                    if(variantsStr) {
+                        // Mở modal nếu có size
+                        UI.openVariantModal(btn.dataset.id, btn.dataset.name, btn.dataset.icon, variantsStr, btn);
+                    } else {
+                        // Thêm trực tiếp
+                        CartController.add(btn.dataset.id, btn.dataset.name, parseFloat(btn.dataset.price), btn.dataset.icon);
+                        UI.flyToCartAnim(btn, btn.dataset.icon);
+                    }
+                };
+
+                // Click event (replaced hold to avoid complex mobile bugs with modals)
+                container.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.btn-add-item');
+                    if(btn) addAction(btn);
+                });
+
+                // Tìm kiếm
+                document.getElementById('search-input').addEventListener('input', Utils.debounce((e) => {
+                    State.searchQuery = e.target.value;
+                    UI.renderMenu();
+                }, 300));
+
+                // Modals
+                document.getElementById('cart-bar-trigger').addEventListener('click', () => UI.toggleCartModal());
+                document.getElementById('btn-close-cart').addEventListener('click', UI.closeCartModal);
+                document.getElementById('cart-overlay').addEventListener('click', (e) => { if(e.target.id === 'cart-overlay') UI.closeCartModal(); });
+                
+                // Form interactions -> Auto save
+                document.getElementById('frm-name').addEventListener('input', UI.saveUserInfoOnTyping);
+                document.getElementById('frm-phone').addEventListener('input', UI.saveUserInfoOnTyping);
+                document.getElementById('frm-notes').addEventListener('input', UI.saveUserInfoOnTyping);
+                document.getElementById('frm-ship').addEventListener('change', UI.updateCartBar);
+                
+                // Clear cart
+                document.getElementById('btn-clear-cart').addEventListener('click', UI.showConfirmClear);
+                document.getElementById('btn-confirm-cancel').addEventListener('click', UI.closeConfirm);
+                document.getElementById('btn-confirm-ok').addEventListener('click', () => { CartController.clear(); UI.closeConfirm(); });
+                
+                // Submit Order
+                document.getElementById('btn-submit-order').addEventListener('click', Utils.debounce(APIController.processOrder, 1000));
+
+                // Theme
+                document.getElementById('theme-toggle').addEventListener('click', () => {
+                    const docClass = document.documentElement.classList;
+                    docClass.toggle('dark');
+                    const isDark = docClass.contains('dark');
+                    localStorage.theme = isDark ? 'dark' : 'light';
+                    document.getElementById('theme-toggle').innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                });
+
+                window.addEventListener('offline', () => { State.isOffline = true; document.getElementById('network-status').classList.add('offline-bar');});
+                window.addEventListener('online', () => { State.isOffline = false; document.getElementById('network-status').classList.remove('offline-bar');});
+            }
+        };
+
+        /** ==========================================
+         * MODULE 5: CART LOGIC
+         * ========================================== */
+        const CartController = {
+            add: (id, name, price, icon) => {
+                if (State.cart[id]) State.cart[id].qty++;
+                else State.cart[id] = { name, price, icon, qty: 1 };
+                State.lastAddedId = id; // trigger flash
+                State.saveCart(); UI.updateCartBar();
+                UI.showToast(`+1 ${name}`);
+            },
+            updateQty: (id, change) => {
+                if(State.cart[id]) {
+                    State.cart[id].qty += change;
+                    if(State.cart[id].qty <= 0) delete State.cart[id];
+                    State.saveCart(); UI.updateCartBar();
+                }
+            },
+            setQty: (id, val) => {
+                const num = parseInt(val);
+                if(isNaN(num) || num <= 0) delete State.cart[id];
+                else State.cart[id].qty = num;
+                State.saveCart(); UI.updateCartBar();
+            },
+            removeItem: (id) => {
+                delete State.cart[id];
+                State.saveCart(); UI.updateCartBar();
+            },
+            clear: () => {
+                State.clearCart(); UI.updateCartBar(); UI.showToast("Đã xoá giỏ hàng");
+            },
+            reorder: (orderId) => {
+                const order = State.orderHistory.find(o => o.id === orderId);
+                if(order && order.cartData) {
+                    State.cart = JSON.parse(JSON.stringify(order.cartData)); // Deep copy
+                    State.saveCart(); UI.updateCartBar();
+                    UI.toggleHistoryModal(true);
+                    UI.showToast("Đã thêm đơn cũ vào giỏ!");
+                    setTimeout(() => UI.toggleCartModal(), 500);
+                }
+            }
+        };
+
+        /** ==========================================
+         * MODULE 6: API & ORDER PROCESSING
+         * ========================================== */
+        const APIController = {
+            processOrder: async () => {
+                const nameEl = document.getElementById('frm-name');
+                const phoneEl = document.getElementById('frm-phone');
+                const notesEl = document.getElementById('frm-notes');
+                const shipVal = document.getElementById('frm-ship').value;
+
+                const name = nameEl.value.trim();
+                const phone = phoneEl.value.trim();
+                const notes = notesEl.value.trim();
+                
+                // [NÂNG CẤP] VALIDATION CHUẨN
+                nameEl.classList.remove('border-red-500'); phoneEl.classList.remove('border-red-500'); notesEl.classList.remove('border-red-500');
+                
+                if(!name) { nameEl.classList.add('border-red-500'); return UI.showToast("Bắt buộc nhập Tên!", "error"); }
+                if(!Utils.validatePhone(phone)) { phoneEl.classList.add('border-red-500'); return UI.showToast("SĐT không hợp lệ (cần 10 số VN)!", "error"); }
+                if(shipVal !== "0" && !notes) { notesEl.classList.add('border-red-500'); return UI.showToast("Giao hàng thì cho Sóc xin địa chỉ nha!", "error"); }
+
+                const btnSubmit = document.getElementById('btn-submit-order');
+                btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Chờ xíu...`;
+                btnSubmit.disabled = true;
+
+                const orderID = Utils.generateOrderID();
+                let orderItemsStr = [];
+                let totalFood_k = 0;
+
+                for (const id in State.cart) {
+                    const c = State.cart[id];
+                    orderItemsStr.push(`- ${c.icon} ${c.name} (x${c.qty}) = ${Utils.formatMoney(c.price * c.qty)}`);
+                    totalFood_k += c.price * c.qty;
+                }
+
+                const sel = document.getElementById('frm-ship');
+                const shipName = sel.options[sel.selectedIndex].text.split('(')[0].trim();
+                const bShip_k = parseInt(shipVal);
+                const fShip_k = totalFood_k >= CONFIG.FREESHIP_THRESHOLD ? 0 : bShip_k;
+                const fTotal_k = totalFood_k + fShip_k;
+
+                const itemsStrShort = orderItemsStr.map(s => s.split('=')[0].trim()).join(', '); // For History
+
+                const msgText = 
+`📦 MÃ ĐƠN: ${orderID}
+---
+👤 Khách: ${name}
+📞 SĐT: ${phone}
+🛵 Giao đến: ${shipName}
+📝 Địa chỉ/Ghi chú: ${notes || 'Không'}
+---
+🛒 MÓN:
+${orderItemsStr.join('\n')}
+---
+💵 Món: ${Utils.formatMoney(totalFood_k)}
+🚚 Ship: ${totalFood_k >= CONFIG.FREESHIP_THRESHOLD && bShip_k > 0 ? 'FREESHIP' : Utils.formatMoney(fShip_k)}
+💰 TỔNG CỘNG: ${Utils.formatMoney(fTotal_k)}`;
+
+                if(!State.isOffline) {
+                    const payload = new URLSearchParams({
+                        order_id: orderID, time_iso: Utils.getISO(), status: "Đã gửi",
+                        name, phone, address: notes, items: itemsStrShort, total: Utils.formatMoney(fTotal_k)
+                    });
+                    try { fetch(CONFIG.WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: payload }); } catch (e) {}
+                }
+
+                try {
+                    await navigator.clipboard.writeText(msgText);
+                    
+                    // [NÂNG CẤP] Save History
+                    State.orderHistory.push({
+                        id: orderID, date: Utils.getISO(), itemsStr: itemsStrShort, total: Utils.formatMoney(fTotal_k), cartData: State.cart
+                    });
+                    State.saveHistory();
+
+                    State.clearCart(); UI.updateCartBar(); UI.closeCartModal();
+                    Utils.playSound('sound-success');
+                    
+                    UI.showToast("Đã copy đơn! Chuyển qua Messenger...");
+                    setTimeout(() => window.open(CONFIG.FB_MESSENGER, '_blank'), 1500);
+
+                } catch (err) {
+                    UI.showToast("Copy thất bại, bạn nhớ nhắn món cho quán nhé!", "error");
+                    setTimeout(() => window.open(CONFIG.FB_MESSENGER, '_blank'), 2000);
+                } finally {
+                    btnSubmit.innerHTML = `<span class="flex items-center gap-2"><i class="fab fa-facebook-messenger"></i> Chốt đơn</span> <span class="font-cute text-2xl">${Utils.formatMoney(fTotal_k)}</span>`;
+                    btnSubmit.disabled = false;
+                }
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', UI.init);
     </script>
 </body>
 </html>
