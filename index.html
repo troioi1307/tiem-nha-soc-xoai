@@ -1,268 +1,529 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tiệm Nhà Sóc Xoài - The Ultimate Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiệm Nhà Sóc Xoài 🐿️🥭 - Đặt Món Dễ Dàng</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFF3B0',
+                        secondary: '#FFB84C',
+                        accent: '#F16767',
+                        darkBg: '#2C221E',
+                        darkCard: '#3A2E28',
+                        darkText: '#FDE68A',
+                        zalo: '#0068FF'
+                    },
+                    fontFamily: {
+                        'baloo': ['"Baloo 2"', 'cursive'],
+                        'nunito': ['Nunito', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'slide-in-up': 'slideInUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        slideInUp: {
+                            '0%': { transform: 'translateY(100%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        :root {
-            --mango: #FFD200; --orange: #F7971E; --red: #FF4E50;
-            --blue: #00d2ff; --green: #2ecc71; --brown: #5d4037;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #FFF3B0; }
+        ::-webkit-scrollbar-thumb { background: #FFB84C; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-track { background: #2C221E; }
+        .dark ::-webkit-scrollbar-thumb { background: #FFB84C; }
+
+        body { font-family: 'Nunito', sans-serif; }
+        h1, h2, h3, h4, .font-cute { font-family: '"Baloo 2"', cursive; }
+
+        /* Card Hover Effect */
+        .menu-card {
+            transition: all 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 184, 76, 0.3);
+        }
+        .dark .menu-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background: #FFF9E3; color: var(--brown);
-            overflow-x: hidden; transition: background 1s ease;
+        /* Quantity input styling */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
         }
 
-        /* --- SÓC VIP FOLLOW --- */
-        #chibi-runner {
-            position: fixed; width: 80px; height: 80px; font-size: 65px;
-            pointer-events: none; z-index: 9999;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; align-items: center; justify-content: center;
+        /* Toast Notification Styling */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
         }
-
-        /* --- HEADER SIÊU CẤP --- */
-        header {
-            height: 480px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: linear-gradient(180deg, var(--blue), #fff); border-bottom-left-radius: 100px; border-bottom-right-radius: 100px;
-            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center;
+        #toast.show {
+            visibility: visible;
+            animation: slideInUp 0.5s, fadeOut 0.5s 2.5s;
         }
-        .hero-chibi { font-size: 130px; animation: heroBounce 4s infinite ease-in-out; }
-        @keyframes heroBounce { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-30px) rotate(5deg); } }
-        .brand { font-family: 'Pattaya', sans-serif; font-size: 3.5rem; color: var(--red); text-shadow: 4px 4px 0 white; margin-bottom: 5px; }
-
-        /* --- SLOGAN VIP (badge trắng) --- */
-        .slogan-badge {
-            background: white; padding: 10px 30px; border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(247, 151, 30, 0.2);
-            display: inline-flex; align-items: center; gap: 10px;
-            animation: pulse 2s infinite; border: 2px solid var(--mango);
+        @keyframes fadeOut {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0px; opacity: 0;}
         }
-        .slogan-text { color: #ff9f43; font-weight: 900; font-size: 1rem; text-transform: uppercase; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* --- NAVBAR GLASS --- */
-        nav {
-            position: sticky; top: 15px; z-index: 1000; margin: 0 15px;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
-            border-radius: 40px; padding: 10px; display: flex; gap: 8px; overflow-x: auto;
-            border: 3px solid var(--mango); box-shadow: 0 15px 35px rgba(0,0,0,0.1); scrollbar-width: none;
-        }
-        nav::-webkit-scrollbar { display: none; }
-        .nav-link { padding: 12px 25px; background: white; border-radius: 30px; text-decoration: none; color: var(--brown); font-weight: 800; white-space: nowrap; transition: 0.3s; }
-        .nav-link.active { background: var(--mango); transform: scale(1.1); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-
-        /* --- CARD PREMIUM --- */
-        .container { padding: 30px 20px; max-width: 550px; margin: auto; }
-        .section-header { margin: 50px 0 25px; font-family: 'Pattaya'; font-size: 2rem; color: var(--orange); }
-        
-        .premium-card {
-            background: white; border-radius: 50px; padding: 25px; margin-bottom: 30px;
-            display: flex; align-items: center; gap: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border: 4px solid white; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; overflow: hidden;
-        }
-        .premium-card:hover { transform: translateY(-8px); border-color: var(--mango); }
-        
-        /* Hiệu ứng tia sáng lấp lánh cho món hot */
-        .hot-aura::before {
-            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
-            transform: skewX(-25deg); animation: shine 3s infinite;
-        }
-        @keyframes shine { from { left: -100%; } to { left: 200%; } }
-
-        .item-icon-box {
-            width: 85px; height: 85px; background: linear-gradient(135deg, var(--mango), var(--orange));
-            border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 48px;
-            color: white; box-shadow: 0 10px 20px rgba(247, 151, 30, 0.2);
-        }
-
-        .btn-add-pro {
-            background: var(--green); color: white; border: none; padding: 12px 25px; border-radius: 25px;
-            font-weight: 900; cursor: pointer; box-shadow: 0 6px 0 #27ae60; transition: 0.1s;
-        }
-        .btn-add-pro:active { transform: translateY(4px); box-shadow: none; }
-
-        /* --- HUD --- */
-        .adventure-hud {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            width: 92%; max-width: 420px; background: var(--brown); padding: 18px 25px;
-            border-radius: 50px; display: flex; align-items: center; justify-content: space-between;
-            color: white; z-index: 2000; border: 4px solid var(--mango);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-        }
-
-        footer { background: var(--brown); color: white; padding: 100px 20px 150px; text-align: center; border-radius: 80px 80px 0 0; }
-        .social-btn { background: white; width: 60px; height: 60px; border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; color: var(--brown); font-size: 26px; text-decoration: none; margin: 10px; transition: 0.3s; }
-        .social-btn:hover { transform: scale(1.1) rotate(10deg); color: var(--orange); }
     </style>
 </head>
-<body>
+<body class="bg-primary text-gray-800 transition-colors duration-300 dark:bg-darkBg dark:text-darkText overflow-x-hidden relative pb-20 md:pb-0">
 
-    <div id="chibi-runner">🐿️</div>
+    <div id="toast" class="bg-accent text-white font-cute font-bold shadow-lg">
+        Đã copy đơn hàng! Đang mở Messenger... 🐿️
+    </div>
 
-    <header>
-        <div class="hero-chibi animate__animated animate__zoomIn">🐿️🥭</div>
-        <h1 class="brand">TIỆM NHÀ SÓC XOÀI</h1>
-        <div class="slogan-badge">
-            <span class="slogan-text">Ngọt vị xoài, dễ thương cùng Sóc</span>
-            <span>🚀</span>
+    <header class="fixed w-full top-0 z-50 bg-primary/90 dark:bg-darkBg/90 backdrop-blur-md shadow-sm transition-colors duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl md:text-3xl font-cute font-bold text-secondary flex items-center gap-2 hover:scale-105 transition-transform">
+                <span>🐿️</span> Tiệm Nhà Sóc Xoài <span>🥭</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 font-bold text-lg">
+                <a href="#home" class="hover:text-secondary transition-colors">Trang chủ</a>
+                <a href="#menu" class="hover:text-secondary transition-colors">Menu</a>
+                <a href="#about" class="hover:text-secondary transition-colors">Giới thiệu</a>
+                <a href="#contact" class="hover:text-secondary transition-colors">Liên hệ</a>
+                
+                <button id="theme-toggle" class="p-2 rounded-full bg-white dark:bg-darkCard shadow-md hover:scale-110 transition-transform text-secondary">
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+            </nav>
+
+            <div class="md:hidden flex items-center gap-4">
+                <button id="theme-toggle-mobile" class="p-2 rounded-full bg-white dark:bg-darkCard shadow-md text-secondary">
+                    <i id="theme-icon-mobile" class="fas fa-moon"></i>
+                </button>
+                <button id="mobile-menu-btn" class="text-2xl text-secondary">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
-        <div style="margin-top: 30px; background: white; padding: 12px; border-radius: 25px; border: 4px dashed var(--orange);">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://m.me/luong.kute.568" width="100">
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-darkCard shadow-lg absolute w-full left-0 top-full flex flex-col items-center py-4 gap-4 font-bold">
+            <a href="#home" class="mobile-link">Trang chủ</a>
+            <a href="#menu" class="mobile-link">Menu</a>
+            <a href="#about" class="mobile-link">Giới thiệu</a>
+            <a href="#contact" class="mobile-link">Liên hệ</a>
         </div>
     </header>
 
-    <nav id="navbar">
-        <a href="#tra-sua" class="nav-link active" data-bg="#FFF9E3">🧋 Trà Sữa</a>
-        <a href="#sua-chua" class="nav-link" data-bg="#FDF2E9">🍦 Sữa Chua</a>
-        <a href="#tra-dao" class="nav-link" data-bg="#E0F7FA">🍑 Trà Đào</a>
-        <a href="#latte" class="nav-link" data-bg="#FFF0F5">🥛 Latte</a>
-        <a href="#soda" class="nav-link" data-bg="#F0FFF0">🍹 Soda</a>
-    </nav>
+    <section id="home" class="min-h-screen flex items-center pt-20 relative overflow-hidden">
+        <div class="absolute top-20 left-10 w-32 h-32 bg-secondary/20 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-20 right-10 w-48 h-48 bg-accent/20 rounded-full blur-2xl"></div>
 
-    <div class="container" id="menu-target"></div>
-
-    <footer>
-        <h2 style="font-family: 'Pattaya'; margin-bottom: 25px; font-size: 2.2rem;">LIÊN HỆ VỚI SÓC 🛰️</h2>
-        <div style="display: flex; justify-content: center; gap: 10px;">
-            <a href="tel:0985142598" class="social-btn"><i class="fa-solid fa-phone"></i></a>
-            <a href="https://m.me/luong.kute.568" class="social-btn"><i class="fa-brands fa-facebook-messenger"></i></a>
-            <a href="https://google.com/maps/place/Báng+Tráng+Xoài+Sóc/@20.0987887,106.2812127,15z/data=!4m6!3m5!1s0x313611002e13c06f:0x3398d382bbfdda07!8m2!3d20.0961835!4d106.2745724!16s%2Fg%2F11xyp5qt7f" class="social-btn"><i class="fa-solid fa-location-dot"></i></a>
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
+            <div class="w-full md:w-1/2 text-center md:text-left z-10">
+                <h1 class="text-5xl md:text-7xl font-cute font-extrabold mb-4 leading-tight">
+                    Ngon như <span class="text-secondary">xoài</span> <br>
+                    Chill như <span class="text-secondary">sóc</span>
+                </h1>
+                <p class="text-lg md:text-xl mb-8 opacity-80">
+                    Góc nhỏ bình yên nạp năng lượng cho ngày dài. Đồ uống ngon, ăn vặt đỉnh, mời bạn ghé chơi! 🥤✨
+                </p>
+                <a href="#menu" class="inline-block bg-secondary text-white text-xl font-bold font-cute px-8 py-4 rounded-full shadow-[0_8px_0_#d9922b] hover:shadow-[0_4px_0_#d9922b] hover:translate-y-1 transition-all">
+                    Xem Menu & Đặt Món 👇
+                </a>
+            </div>
+            <div class="w-full md:w-1/2 flex justify-center z-10 animate-float">
+                <div class="text-[120px] md:text-[180px] drop-shadow-2xl relative">
+                    🐿️
+                    <span class="absolute bottom-0 -right-4 text-[80px] md:text-[120px] drop-shadow-lg">🥭</span>
+                    <span class="absolute top-10 -left-10 text-[60px] md:text-[80px] drop-shadow-lg animate-pulse">🧋</span>
+                </div>
+            </div>
         </div>
-        <p style="margin-top: 40px; opacity: 0.6;">© 2026 TIỆM NHÀ SÓC XOÀI - VIP PRO MAX EDITION</p>
+    </section>
+
+    <section id="menu" class="py-20 bg-white dark:bg-darkCard transition-colors duration-300 rounded-t-[3rem] -mt-10 relative z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] pb-32">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-cute font-bold text-secondary mb-3">Menu Của Tiệm 📖</h2>
+                <p class="text-lg opacity-80">Chọn món đi nào, bấm nút <span class="bg-secondary/30 text-secondary p-1 rounded-full px-2 font-bold">+</span> để thêm vào giỏ hàng nha!</p>
+            </div>
+
+            <div class="mb-16">
+                <h3 class="text-3xl font-cute font-bold mb-6 flex items-center gap-3 border-b-2 border-primary pb-2 dark:border-gray-700">
+                    <span class="bg-secondary text-white p-2 rounded-xl">🧋</span> Trà & Trà Sữa
+                </h3>
+                <div id="milk-tea-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+
+            <div class="mb-16">
+                <h3 class="text-3xl font-cute font-bold mb-6 flex items-center gap-3 border-b-2 border-primary pb-2 dark:border-gray-700">
+                    <span class="bg-accent text-white p-2 rounded-xl">🥛</span> Sữa Chua & Nước Ép
+                </h3>
+                <div id="yogurt-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+
+            <div>
+                <h3 class="text-3xl font-cute font-bold mb-6 flex items-center gap-3 border-b-2 border-primary pb-2 dark:border-gray-700">
+                    <span class="bg-orange-400 text-white p-2 rounded-xl">🌮</span> Đồ Ăn Vặt
+                </h3>
+                <div id="snacks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-bar" class="fixed bottom-0 left-0 w-full bg-white/95 dark:bg-darkCard/95 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] backdrop-blur-md p-4 flex justify-between items-center z-40 transform translate-y-full transition-transform duration-300 rounded-t-2xl border-t border-secondary/20 hidden">
+        <div class="flex items-center gap-4">
+            <div class="text-4xl relative">
+                🛒
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">0</span>
+            </div>
+            <div>
+                <div class="font-bold text-lg">Đơn hàng của bạn</div>
+                <div class="text-accent font-cute font-bold text-xl">Tổng: <span id="cart-total">0</span>k</div>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="clearCart()" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-5 py-3 rounded-full font-bold hover:bg-gray-300 transition-colors">
+                Xóa
+            </button>
+            <button onclick="sendOrderToMessenger()" class="bg-secondary text-white px-6 py-3 rounded-full font-bold shadow-md hover:scale-105 transition-transform flex items-center gap-2">
+                <i class="fab fa-facebook-messenger"></i> Gửi đơn ngay
+            </button>
+        </div>
+    </div>
+
+    <section id="about" class="py-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
+            <div class="w-full md:w-1/2 flex justify-center">
+                <div class="relative w-72 h-72 bg-white dark:bg-darkCard rounded-[3rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 flex items-center justify-center text-8xl">
+                    🏡
+                    <div class="absolute -bottom-6 -right-6 text-6xl animation-bounce-slow">🐿️</div>
+                    <div class="absolute -top-6 -left-6 text-6xl animation-bounce-slow" style="animation-delay: 1s">🥭</div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <h2 class="text-4xl md:text-5xl font-cute font-bold text-secondary mb-6">Câu Chuyện Của Tiệm 🌟</h2>
+                <p class="text-lg leading-relaxed mb-4">
+                    Chào mừng bạn đến với <b>Tiệm Nhà Sóc Xoài</b>! Nơi trú ẩn lý tưởng cho những tâm hồn hảo ngọt, thích nhâm nhi trà sữa và tám chuyện cùng bạn bè. 
+                </p>
+                <p class="text-lg leading-relaxed mb-6">
+                    Được sáng lập bởi tình yêu với đồ ăn vặt của đôi bạn <b>Sóc</b> và <b>Xoài</b>. Tiệm cam kết mang đến những ly nước mát lạnh, những phần bánh tráng đậm vị được làm từ nguyên liệu tươi ngon nhất.
+                </p>
+                <p class="font-cute text-xl text-accent font-bold">"Niềm vui của bạn là động lực của chúng mình!"</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-white dark:bg-darkCard transition-colors duration-300 rounded-t-[3rem] relative z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-5xl font-cute font-bold text-secondary mb-10">Ghé Chơi Với Chúng Chúng Mình Nhé! 🛵</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <a href="tel:0985142598" class="bg-primary/20 dark:bg-darkBg p-8 rounded-3xl menu-card block group">
+                        <div class="text-4xl text-accent mb-4 group-hover:animate-bounce"><i class="fas fa-phone-alt"></i></div>
+                        <h4 class="font-cute font-bold text-2xl mb-2 text-secondary">Hotline Đặt Món</h4>
+                        <p class="text-2xl font-bold text-gray-800 dark:text-white">0985.142.598</p>
+                        <p class="text-sm opacity-70 mt-1">Bấm để gọi ngay!</p>
+                    </a>
+
+                    <a href="https://www.google.com/maps/place/B%C3%A1ng+Tr%C3%A1ng+Xo%C3%A0i+S%C3%B3c/@20.0961836,106.2742404,19z/data=!4m6!3m5!1s0x313611002e13c06f:0x3398d382bbfdda07!8m2!3d20.0961835!4d106.2745724!16s%2Fg%2F11xyp5qt7f?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="bg-primary/20 dark:bg-darkBg p-8 rounded-3xl menu-card block group">
+                        <div class="text-4xl text-accent mb-4 group-hover:animate-bounce"><i class="fas fa-map-marker-alt"></i></div>
+                        <h4 class="font-cute font-bold text-2xl mb-2 text-secondary">Địa Chỉ</h4>
+                        <p class="text-lg">Khu Phố Ăn Vặt, Phường Trà Sữa,<br>Quận Ú Nu, TP. Vui Vẻ</p>
+                        <p class="text-sm opacity-70 mt-1">Bấm để xem bản đồ!</p>
+                    </a>
+
+                    <div class="bg-primary/20 dark:bg-darkBg p-8 rounded-3xl menu-card col-span-1 sm:col-span-2">
+                        <div class="text-4xl text-accent mb-4"><i class="fas fa-heart"></i></div>
+                        <h4 class="font-cute font-bold text-2xl mb-4 text-secondary">Kết Nối Online</h4>
+                        <div class="flex justify-center gap-6">
+                            <a href="https://www.facebook.com/luong.kute.568" target="_blank" rel="noopener noreferrer" class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-md">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://m.me/luong.kute.568" target="_blank" rel="noopener noreferrer" class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-md">
+                                <i class="fab fa-facebook-messenger"></i>
+                            </a> 
+                            <a href="#" class="w-16 h-16 bg-zalo text-white rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-md">
+                                <i class="fas fa-comment-dots"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-darkCard p-10 rounded-3xl shadow-[0_15px_50px_rgba(255,184,76,0.15)] dark:shadow-[0_15px_50px_rgba(0,0,0,0.3)] border-2 border-primary group hover:border-secondary transition-colors duration-500">
+                    <div class="text-5xl text-secondary mb-6 group-hover:animate-spin" style="animation-duration: 3s"><i class="fas fa-clock"></i></div>
+                    <h4 class="font-cute font-bold text-3xl mb-6 text-secondary border-b-2 border-primary inline-block pb-2">Giờ Hoạt Động</h4>
+                    
+                    <div class="space-y-3 text-left max-w-xs mx-auto text-lg font-semibold">
+                        <div class="flex justify-between items-center bg-primary/20 dark:bg-darkBg px-4 py-2 rounded-full">
+                            <span>Thứ Hai - Thứ Bảy</span>
+                            <span class="text-accent">15:00 – 22:00</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-primary/20 dark:bg-darkBg px-4 py-2 rounded-full">
+                            <span>Chủ Nhật</span>
+                            <span class="text-accent">15:00 – 22:00</span>
+                        </div>
+                        <p class="text-sm text-center font-normal opacity-70 pt-3 mt-4 border-t border-gray-100 dark:border-gray-700">Mở cửa xuyên suốt tất cả các ngày trong tuần!</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-secondary text-white py-6 text-center">
+        <p class="font-cute text-xl mb-1">🐿️ Tiệm Nhà Sóc Xoài 🥭</p>
+        <p class="text-sm opacity-90">&copy; 2026. Designed with ❤️ for Milk Tea lovers.</p>
     </footer>
 
-    <div class="adventure-hud" id="hud-bar" style="display:none;">
-        <div style="font-weight: 900; font-size: 1.3rem;">
-            <i class="fa-solid fa-gem" style="color:var(--mango)"></i> <span id="total-val">0</span>k
-        </div>
-        <button onclick="openFinalBag()" style="background:var(--red); color:white; border:none; padding:15px 30px; border-radius:30px; font-weight:900; cursor:pointer; font-size:1.1rem;">ĐẶT NGAY ✨</button>
-    </div>
-
-    <div id="final-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:3000; display:none; align-items:center; justify-content:center; padding:25px;">
-        <div style="background:white; border-radius:60px; border:10px solid var(--mango); padding:45px 35px; width:100%; max-width:480px; text-align:center;">
-            <h2 style="font-family:'Pattaya'; color:var(--orange); font-size:2.2rem; margin-bottom: 20px;">HÀNH TRANG 🎒</h2>
-            <div id="bag-list" style="text-align:left; margin:20px 0; max-height:280px; overflow-y:auto; font-weight:800; font-size:1.1rem; border-top: 2px dashed #eee; padding-top: 20px;"></div>
-            <div style="font-size:2.5rem; font-weight: 900; margin-bottom: 30px;">TỔNG: <span id="modal-val" style="color:var(--red);">0</span>k</div>
-            <button style="width:100%; height:75px; background:#0084FF; color:white; border:none; border-radius:25px; font-weight:900; font-size:1.4rem; box-shadow: 0 10px 20px rgba(0, 132, 255, 0.3);" onclick="sendToSóc()">GỬI MESSENGER 🚀</button>
-            <p onclick="closeFinalBag()" style="margin-top:25px; cursor:pointer; color:#f44336; font-weight:900;">TIẾP TỤC CHỌN MÓN</p>
-        </div>
-    </div>
-
     <script>
-        const menu = {
-            "tra-sua": { title: "DÒNG TRÀ SỮA 🧋", items: [
-                { n: "Trà sữa gạo rang", p: [20, 25], i: "🌾", hot: true },
-                { n: "Trà sữa hạt dẻ cười", p: [20, 25], i: "🥜" },
-                { n: "Trà sữa thái xanh", p: [20, 25], i: "🍵" },
-                { n: "Trà sữa truyền thống full topping", p: [20, 25], i: "🧋", hot: true },
-                { n: "Trà sữa sầu riêng", p: [20, 25], i: "🍈" }
-            ]},
-            "sua-chua": { title: "DÒNG SỮA CHUA 🍦", items: [
-                { n: "Sữa chua việt quất", p: 25, i: "🫐" }, { n: "Sữa chua dâu", p: 25, i: "🍓" },
-                { n: "Sữa chua chanh dây", p: 25, i: "🍋" }, { n: "Sữa chua xoài", p: 25, i: "🥭", hot: true },
-                { n: "Sữa chua dưa lưới", p: 25, i: "🍈" }, { n: "Sữa chua đào", p: 25, i: "🍑" }
-            ]},
-            "tra-dao": { title: "TRÀ TRÁI CÂY 🍑", items: [{ n: "Trà thạch đào", p: 20, i: "🍑", hot: true }]},
-            "latte": { title: "DÒNG LATTE & SỮA 🥛", items: [
-                { n: "Choco sữa chuối", p: 25, i: "🍌" }, { n: "Matcha latte", p: 20, i: "🍵" },
-                { n: "Matcha kem muối", p: 25, i: "🧂", hot: true }, { n: "Cacao latte", p: 20, i: "🍫" },
-                { n: "Milo dầm", p: 20, i: "🥣" }
-            ]},
-            "soda": { title: "SODA FRESH 🍹", items: [
-                { n: "Soda việt quất", p: 15, i: "🫐" }, { n: "Soda chanh dây", p: 15, i: "🍋" },
-                { n: "Soda dâu", p: 15, i: "🍓" }, { n: "Soda dưa lưới", p: 15, i: "🍈" }
-            ]}
-        };
+        // --- CORE JAVASCRIPT (UI) ---
 
-        function render() {
-            const root = document.getElementById('menu-target');
-            for (let cat in menu) {
-                let html = `<h2 id="${cat}" class="section-header animate__animated animate__fadeInLeft">${menu[cat].title}</h2>`;
-                menu[cat].items.forEach(item => {
-                    let aura = item.hot ? 'hot-aura' : '';
-                    let pricePart = Array.isArray(item.p) 
-                        ? `<div style="display:flex;gap:12px;margin-top:10px">
-                             <button onclick="add('${item.n} (N)', 20)" class="btn-add-pro" style="background:#fff;color:var(--brown);border:2px solid var(--mango);box-shadow:none">20k</button>
-                             <button onclick="add('${item.n} (L)', 25)" class="btn-add-pro" style="background:#fff;color:var(--brown);border:2px solid var(--mango);box-shadow:none">25k</button>
-                           </div>`
-                        : `<div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:10px">
-                             <span style="font-weight:900;color:var(--red);font-size:1.4rem">${item.p}k</span>
-                             <button onclick="add('${item.n}', ${item.p})" class="btn-add-pro">MUA ✨</button>
-                           </div>`;
-                    html += `<div class="premium-card ${aura} animate__animated animate__fadeInUp">
-                                <div class="item-icon-box">${item.i}</div>
-                                <div style="flex:1"><p style="font-weight:800;font-size:1.15rem">${item.n.toUpperCase()}</p>${pricePart}</div>
-                             </div>`;
-                });
-                root.innerHTML += html;
-            }
-        }
+        // 1. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        let cart = [];
-        function add(n, p) {
-            const ex = cart.find(i => i.n === n);
-            if (ex) ex.q++; else cart.push({ n, p, q: 1 });
-            if (navigator.vibrate) navigator.vibrate(50);
-            confetti({ particleCount: 80, spread: 70, origin: { y: 0.8 }, colors: ['#FFD200', '#F7971E', '#FF4E50'] });
-            updateHUD();
-        }
-
-        function updateHUD() {
-            let total = 0; cart.forEach(i => total += i.p * i.q);
-            document.getElementById('total-val').innerText = total;
-            document.getElementById('hud-bar').style.display = cart.length > 0 ? 'flex' : 'none';
-        }
-
-        function openFinalBag() {
-            const list = document.getElementById('bag-list'); list.innerHTML = ""; let total = 0;
-            cart.forEach(i => { total += i.p * i.q; list.innerHTML += `<div style="padding:12px 0;border-bottom:1px dashed #eee">💎 ${i.n} x${i.q} = ${i.p*i.q}k</div>`; });
-            document.getElementById('modal-val').innerText = total;
-            document.getElementById('final-modal').style.display = 'flex';
-        }
-
-        function closeFinalBag() { document.getElementById('final-modal').style.display = 'none'; }
-
-        function sendToSóc() {
-            let text = "🐿️ NHẬT KÝ ĐẶT MÓN TỪ TIỆM NHÀ SÓC XOÀI 🐿️\n---\n";
-            cart.forEach(i => text += `⚔️ ${i.n} (x${i.q})\n`);
-            text += `---\n💰 TỔNG NĂNG LƯỢNG: ${document.getElementById('modal-total').innerText}k\n🚀 Sóc ơi ship cho mình nhé!`;
-            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            alert("Đã sao chép đơn hàng thành công! ✨");
-            window.location.href = "https://m.me/luong.kute.568";
-        }
-
-        // Runner follow
-        const runner = document.getElementById('chibi-runner');
-        document.addEventListener('mousemove', (e) => { runner.style.left = e.clientX - 40 + 'px'; runner.style.top = e.clientY - 40 + 'px'; });
-        document.addEventListener('touchmove', (e) => { runner.style.left = e.touches[0].clientX - 40 + 'px'; runner.style.top = e.touches[0].clientY - 40 + 'px'; });
-
-        // Scroll Logic
-        window.addEventListener('scroll', () => {
-            let cur = "";
-            document.querySelectorAll('.section-header').forEach(s => { if (pageYOffset >= s.offsetTop - 250) cur = s.getAttribute('id'); });
-            const navLink = document.querySelector(`.nav-link[href="#${cur}"]`);
-            if (navLink) {
-                document.body.style.background = navLink.getAttribute('data-bg');
-                document.querySelectorAll('.nav-link').forEach(i => i.classList.remove('active'));
-                navLink.classList.add('active');
-                navLink.parentElement.scrollTo({ left: navLink.offsetLeft - 30, behavior: 'smooth' });
-            }
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
 
-        render();
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. Dark Mode Toggle
+        const themeToggleBtns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
+        const themeIcons = [document.getElementById('theme-icon'), document.getElementById('theme-icon-mobile')];
+        const html = document.documentElement;
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            updateIcons('dark');
+        } else {
+            html.classList.remove('dark');
+            updateIcons('light');
+        }
+
+        themeToggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    localStorage.theme = 'light';
+                    updateIcons('light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.theme = 'dark';
+                    updateIcons('dark');
+                }
+            });
+        });
+
+        function updateIcons(theme) {
+            themeIcons.forEach(icon => {
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    icon.style.color = '#FFB84C'; // Sun color
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    icon.style.color = ''; // Reset
+                }
+            });
+        }
+
+        // --- MENU & CART JAVASCRIPT (FEATURES) ---
+
+        // MENU DATA WITH DIVERSE ICONS & BASE PRICES
+        const menuData = {
+            milkTea: [
+                { id: 'ts01', name: "Trà sữa gạo rang", price: 25, icon: "🌾🧋" },
+                { id: 'ts02', name: "Trà sữa truyền thống full topping", price: 25, icon: "🍮🧋" },
+                { id: 'ts03', name: "Trà sữa hạt dẻ", price: 25, icon: "🌰🧋" },
+                { id: 'ts04', name: "Trà sữa phô mai", price: 25, icon: "🧀🧋" },
+                { id: 'ts05', name: "Matcha latte kem", price: 25, icon: "🍵🍦", priceDisplay: "25-30k" },
+                { id: 'ts06', name: "Cacao latte", price: 20, icon: "🍫🥛", priceDisplay: "20-25k" },
+                { id: 'ts07', name: "Milo dầm", price: 20, icon: "🥤🍫" },
+                { id: 'ts08', name: "Trà tắc", price: 10, icon: "🍊🍵" }
+            ],
+            yogurt: [
+                { id: 'sc01', name: "Sữa chua việt quất", price: 25, icon: "🫐🥛" },
+                { id: 'sc02', name: "Sữa chua dâu", price: 25, icon: "🍓🥛" },
+                { id: 'sc03', name: "Sữa chua chanh dây", price: 25, icon: "🍋🥛" },
+                { id: 'sc04', name: "Sữa chua dưa lưới", price: 25, icon: "🍈🥛" },
+                { id: 'sc05', name: "Sữa chua đào", price: 25, icon: "🍑🥛" },
+                { id: 'sd01', name: "Soda dâu", price: 15, icon: "🍓🍹" },
+                { id: 'sd02', name: "Soda chanh dây", price: 15, icon: "🍋🍹" },
+                { id: 'sd03', name: "Soda dưa lưới", price: 15, icon: "🍈🍹" },
+                { id: 'sd04', name: "Soda việt quất", price: 15, icon: "🫐🍹" },
+                { id: 'sd05', name: "Nước cam", price: 15, icon: "🍊🥤", priceDisplay: "15-20k" }
+            ],
+            snacks: [
+                { id: 'an01', name: "Bánh tráng trộn", price: 15, icon: "🥗🌮", priceDisplay: "15-20k" },
+                { id: 'an02', name: "Bánh tráng cuộn", price: 20, icon: "🌯🌮", priceDisplay: "20-25k" },
+                { id: 'an03', name: "Bánh mì nướng muối ớt", price: 15, icon: "🥖🧂", priceDisplay: "15-25k" },
+                { id: 'an04', name: "Cá viên", price: 20, icon: "🍡🍡" },
+                { id: 'an05', name: "Bò viên", price: 20, icon: "🧆🧆" },
+                { id: 'an06', name: "Tôm viên", price: 20, icon: "🍤🍤" },
+                { id: 'an07', name: "Lạp xưởng", price: 15, icon: "🍖🔥" },
+                { id: 'an08', name: "Xúc xích", price: 10, icon: "🌭🌭" }
+            ]
+        };
+
+        // CART STATE
+        let cart = {}; // ID -> {name, price, icon, quantity}
+
+        // Initialize Menu
+        function initMenu() {
+            populateCategory('milk-tea-container', menuData.milkTea, 'border-secondary');
+            populateCategory('yogurt-container', menuData.yogurt, 'border-accent');
+            populateCategory('snacks-container', menuData.snacks, 'border-orange-400');
+        }
+
+        function populateCategory(containerId, items, borderClass) {
+            const container = document.getElementById(containerId);
+            items.forEach(item => {
+                const priceText = item.priceDisplay ? item.priceDisplay : `${item.price}k`;
+                container.innerHTML += `
+                    <div class="menu-card bg-primary/30 dark:bg-darkBg p-4 rounded-2xl flex justify-between items-center border-2 border-transparent hover:${borderClass} group">
+                        <div class="flex items-center gap-3">
+                            <div class="text-4xl group-hover:scale-110 transition-transform">${item.icon}</div>
+                            <div class="font-bold text-lg leading-tight text-gray-800 dark:text-white">${item.name}</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="text-accent font-cute font-bold text-xl bg-white dark:bg-darkCard px-3 py-1 rounded-lg shadow-sm whitespace-nowrap">${priceText}</div>
+                            <button onclick="addToCart('${item.id}', '${item.name}', ${item.price}, '${item.icon}')" class="bg-secondary text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-2xl shadow-md hover:bg-secondary/90 hover:scale-110 active:scale-95 transition-all">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Add to cart function
+        function addToCart(id, name, price, icon) {
+            if (cart[id]) {
+                cart[id].quantity += 1;
+            } else {
+                cart[id] = { name, price, icon, quantity: 1 };
+            }
+            updateCartUI();
+        }
+
+        // Clear Cart
+        function clearCart() {
+            cart = {};
+            updateCartUI();
+        }
+
+        // Update Cart Bar UI
+        const cartBar = document.getElementById('cart-bar');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+
+        function updateCartUI() {
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            for (const id in cart) {
+                totalItems += cart[id].quantity;
+                totalPrice += cart[id].price * cart[id].quantity;
+            }
+
+            if (totalItems > 0) {
+                cartCount.innerText = totalItems;
+                cartTotal.innerText = totalPrice;
+                cartBar.classList.remove('hidden');
+                cartBar.classList.remove('translate-y-full');
+            } else {
+                cartBar.classList.add('translate-y-full');
+                setTimeout(() => { if (totalItems === 0) cartBar.classList.add('hidden'); }, 300);
+            }
+        }
+
+        // --- ORDER & COPY JAVASCRIPT (FEATURE) ---
+
+        // Send order to messenger function
+        function sendOrderToMessenger() {
+            // 1. Format the order text
+            let orderText = "Đơn hàng Sóc Xoài:\n---\n";
+            let totalPrice = 0;
+
+            for (const id in cart) {
+                const item = cart[id];
+                const itemTotal = item.price * item.quantity;
+                orderText += `${item.icon} ${item.name} x${item.quantity} = ${itemTotal}k\n`;
+                totalPrice += itemTotal;
+            }
+
+            orderText += `---\n💰 Tổng cộng: ${totalPrice}k`;
+
+            // 2. Copy to clipboard using modern API
+            navigator.clipboard.writeText(orderText).then(() => {
+                // 3. Show Toast Notification
+                showToast();
+
+                // 4. Redirect to Messenger after a short delay
+                setTimeout(() => {
+                    const messengerUrl = "https://m.me/luong.kute.568";
+                    window.open(messengerUrl, '_blank');
+                }, 1200);
+
+            }).catch(err => {
+                console.error('Lỗi khi copy đơn hàng: ', err);
+                alert('Không thể tự động copy. Bạn hãy nhắn trực tiếp cho quán nhé!');
+                // Still try to open messenger
+                window.open("https://m.me/luong.kute.568", '_blank');
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show bg-accent text-white font-cute font-bold shadow-lg";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Initialize menu on load
+        window.onload = initMenu;
+
     </script>
 </body>
 </html>
